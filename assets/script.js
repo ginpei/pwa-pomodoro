@@ -122,3 +122,14 @@ function main () {
 }
 
 document.addEventListener('DOMContentLoaded', main);
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      await navigator.serviceWorker.register('/pwa-pomodoro/service-worker.js')
+      console.log('[ServiceWorker] Register');
+    } catch (error) {
+      console.error(error);
+    }
+  });
+}
