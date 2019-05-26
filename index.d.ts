@@ -1,5 +1,5 @@
 interface PomodoroState {
-  restTime: number;
+  breakTime: number;
   workTime: number;
 }
 
@@ -31,7 +31,7 @@ interface PomodoroTimerProps {
 type PomodoroTimerStatus =
   | 'stop'
   | 'working'
-  | 'resting';
+  | 'breaking';
 
 interface PomodoroTimerState {
   status: PomodoroTimerStatus;
@@ -39,6 +39,7 @@ interface PomodoroTimerState {
 
 interface PreferencesDialogProps {
   el: HTMLElement;
+  initialPomodoroState: PomodoroState;
   onChange: (state: PomodoroState) => void;
   onDone: () => void;
   pomodoroState: PomodoroState;

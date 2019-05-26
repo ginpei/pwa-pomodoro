@@ -1,15 +1,15 @@
 export default class PomodoroTimer {
   get progress () {
-    const { restTime, workTime } = this.props.pomodoroState;
-    const totalTime = workTime + restTime;
+    const { breakTime, workTime } = this.props.pomodoroState;
+    const totalTime = workTime + breakTime;
     const elapse = Date.now() - this._startedAt;
     const progress = (elapse % totalTime) / totalTime;
     return progress;
   }
 
   get threshold () {
-    const { restTime, workTime } = this.props.pomodoroState;
-    const totalTime = workTime + restTime;
+    const { breakTime, workTime } = this.props.pomodoroState;
+    const totalTime = workTime + breakTime;
     const threshold = workTime / totalTime;
     return threshold;
   }
@@ -55,9 +55,9 @@ export default class PomodoroTimer {
         this._setStatus('working');
       } else if (this.state.status === 'working') {
         if (this.progress > this.threshold) {
-          this._setStatus('resting');
+          this._setStatus('breaking');
         }
-      } else if (this.state.status === 'resting') {
+      } else if (this.state.status === 'breaking') {
         if (this.progress < this.threshold) {
           this._setStatus('working');
         }

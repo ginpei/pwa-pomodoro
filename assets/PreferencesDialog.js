@@ -22,10 +22,10 @@ export default class PreferencesDialog {
     }));
 
     /** @type {HTMLInputElement} */
-    this._elRestTime = findElement(el, 'restTime');
-    this._elRestTime.addEventListener('input', () => this.props.onChange({
+    this._elBreakTime = findElement(el, 'breakTime');
+    this._elBreakTime.addEventListener('input', () => this.props.onChange({
       ...this.props.pomodoroState,
-      restTime: this._minToMs(Number(this._elRestTime.value)),
+      breakTime: this._minToMs(Number(this._elBreakTime.value)),
     }));
 
     /** @type {HTMLButtonElement} */
@@ -62,7 +62,7 @@ export default class PreferencesDialog {
     const state = this.props.pomodoroState;
 
     this._elWorkTime.value = String(this._msToMin(state.workTime));
-    this._elRestTime.value = String(this._msToMin(state.restTime));
+    this._elBreakTime.value = String(this._msToMin(state.breakTime));
   }
 
   _resetDefault () {

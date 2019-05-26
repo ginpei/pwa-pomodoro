@@ -7,7 +7,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 function main () {
   /** @type {PomodoroState} */
   const initialPomodoroState = {
-    restTime: 5 * 60 * 1000,
+    breakTime: 5 * 60 * 1000,
     workTime: 25 * 60 * 1000,
   };
 
