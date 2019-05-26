@@ -37,8 +37,8 @@ function main () {
   });
 
   const timer = new PomodoroTimer({
-    onStatusChange: (status) => {
-      console.log('# status', status);
+    onStatusChange: (status, old) => {
+      console.log('# status', `${old} -> ${status}`);
       hand.updateProps({
         degree: 0,
       })

@@ -81,11 +81,15 @@ export default class PomodoroTimer {
    * @param {PomodoroTimerStatus} status
    */
   _setStatus (status) {
+    const oldStatus = this.state.status;
     this.state.status = status;
-    this._dispatchStatusChange();
+    this._dispatchStatusChange(oldStatus);
   }
 
-  _dispatchStatusChange () {
-    this.props.onStatusChange(this.state.status);
+  /**
+   * @param {PomodoroTimerStatus} oldStatus
+   */
+  _dispatchStatusChange (oldStatus) {
+    this.props.onStatusChange(this.state.status, oldStatus);
   }
 }

@@ -21,7 +21,10 @@ interface PomodoroClockHandProps {
 
 interface PomodoroTimerProps {
   pomodoroStatus: PomodoroState;
-  onStatusChange: (status: PomodoroTimerStatus) => void;
+  onStatusChange: (
+    status: PomodoroTimerStatus,
+    oldStatus: PomodoroTimerStatus,
+  ) => void;
   onUpdate: (progress: number) => void;
 }
 
