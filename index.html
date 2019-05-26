@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#003366" />
+  <meta name="description" content="Pomodoro timer" />
+  <title>Pomodoro</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="shortcut icon" href="assets/icon-512.png" />
+</head>
+<body>
+  <div id="app">
+    <div id="editor" class="layout">
+      <header class="layout-header">
+        <div class="header">
+          <div class="header-inner container">
+            <h1 class="header-title">Pomodoro</h1>
+            <div class="header-buttons">
+              <button class="header-button" data-js="openPreferences">
+                <svg
+                  aria-label="Open preferences"
+                  class="icon"
+                  height="16"
+                  viewBox="0 0 512 512"
+                  width="16"
+                >
+                  <use href="#sliders-h" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="layout-body">
+        <div class="pomodoro">
+          <div class="pomodoro-clockWrapper">
+            <canvas
+              class="pomodoro-circle"
+              data-js="circle"
+              height="1000"
+              width="1000"
+            ></canvas>
+            <canvas
+              class="pomodoro-clockHand"
+              data-js="clockHand"
+              height="1000"
+              width="1000"
+            ></canvas>
+          </div>
+          <div class="pomodoro-digital" data-js="digitalClock">12:34.</div>
+          <form data-js="pomodoroForm">
+            <div>
+              <label>
+                Work time:
+                <input type="number" data-js="workTime" />
+                min
+              </label>
+            </div>
+            <div>
+              <label>
+                Rest time:
+                <input type="number" data-js="restTime" />
+                min
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg display="none" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sliders-h" class="svg-inline--fa fa-sliders-h fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path id="sliders-h" fill="currentColor" d="M496 384H160v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h80v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h336c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160h-80v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h336v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h80c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160H288V48c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16C7.2 64 0 71.2 0 80v32c0 8.8 7.2 16 16 16h208v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h208c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16z"></path>
+  </svg>
+  <script type="module" src="assets/script.js"></script>
+</body>
+</html>
