@@ -72,7 +72,7 @@ function main () {
   /**
    * @param {PomodoroState} pomodoroState
    */
-  const update = (pomodoroState) => {
+  const updatePomodoroState = (pomodoroState) => {
     circle.updateProps({ pomodoroState });
     timer.updateProps({
       pomodoroState,
@@ -98,7 +98,7 @@ function main () {
     el: findElement(document.body, 'preferencesDialog'),
     initialPomodoroState,
     onChange: (state) => {
-      update(state);
+      updatePomodoroState(state);
     },
     onDone: () => {
       window.history.back();
