@@ -28,7 +28,6 @@ sw.addEventListener('activate', (event) => {
 
 sw.addEventListener('fetch', (event) => {
   const { pathname } = new URL(event.request.url);
-  console.log('# fetch', pathname);
   if (!pathname.startsWith(base)) {
     return;
   }
