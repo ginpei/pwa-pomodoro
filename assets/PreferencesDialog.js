@@ -69,7 +69,7 @@ export default class PreferencesDialog {
         { opacity: 0, transform: 'scale(1.1)' },
         { opacity: 1, transform: 'scale(1)' },
       ], {
-        duration: 200,
+        duration: 100,
       });
     }
   }
@@ -81,7 +81,7 @@ export default class PreferencesDialog {
         { opacity: 1, transform: 'scale(1)' },
         { opacity: 0, transform: 'scale(1.1)' },
       ], {
-        duration: 200,
+        duration: 100,
       });
       animation.onfinish = onfinish;
     } else {
