@@ -28,6 +28,10 @@ export default class PreferencesDialog {
       restTime: this._minToMs(Number(this._elRestTime.value)),
     }));
 
+    /** @type {HTMLButtonElement} */
+    this._elResetDefault = findElement(el, 'resetDefault');
+    this._elResetDefault.addEventListener('click', () => this._resetDefault());
+
     this._render();
   }
 
@@ -59,6 +63,17 @@ export default class PreferencesDialog {
 
     this._elWorkTime.value = String(this._msToMin(state.workTime));
     this._elRestTime.value = String(this._msToMin(state.restTime));
+  }
+
+  _resetDefault () {
+    const ok = window.confirm('Are you sure you want to reset all settings?');
+    if (!ok) {
+      return;
+    }
+
+    this.updateProps({
+      pomodoroState: this.props.initialPomodoroState,
+    });
   }
 
   /**

@@ -89,6 +89,7 @@ function main () {
 
   const preferencesDialog = new PreferencesDialog({
     el: findElement(document.body, 'preferencesDialog'),
+    initialPomodoroState,
     onChange: (state) => {
       update(state);
     },
