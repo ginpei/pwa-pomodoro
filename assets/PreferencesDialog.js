@@ -8,6 +8,11 @@ export default class PreferencesDialog {
     /** @type {PreferencesDialogProps} */
     this.props = props;
 
+    /** @type {PreferencesDialogState} */
+    this._state = {
+      installingProgress: 'ready',
+    };
+
     const { el } = this.props;
 
     /** @type {HTMLButtonElement} */
@@ -25,6 +30,19 @@ export default class PreferencesDialog {
     /** @type {HTMLButtonElement} */
     this._elResetDefault = findElement(el, 'resetDefault');
     this._elResetDefault.addEventListener('click', () => this._resetDefault());
+
+    /** @type {HTMLElement} */
+    this._elAppSection = findElement(el, 'appSection');
+
+    /** @type {HTMLButtonElement} */
+    this._elInstall = findElement(el, 'install');
+    this._elInstall.addEventListener('click', () => this.onInstallClick());
+
+    /** @type {HTMLElement} */
+    this._elInstallationAcceptedMessage =
+      findElement(el, 'installationAcceptedMessage');
+    this._elInstallationDismissedMessage =
+      findElement(el, 'installationDismissedMessage');
 
     this._render();
   }
@@ -52,11 +70,46 @@ export default class PreferencesDialog {
     this.props.el.hidden = true;
   }
 
+  async onInstallClick () {
+    const e = this.props.beforeInstallPromptEvent;
+    if (!e) {
+      throw new Error('Invoked unexpectedly');
+    }
+
+    e.prompt();
+    const choice = await e.userChoice;
+    const accepted = choice.outcome === 'accepted';
+    this._setState({
+      installingProgress: accepted ? 'accepted' : 'dismissed',
+    });
+    this.props.onInstall(accepted);
+  }
+
   _render () {
     const state = this.props.pomodoroState;
 
     this._elWorkTime.value = String(this._msToMin(state.workTime));
     this._elBreakTime.value = String(this._msToMin(state.breakTime));
+
+    this._elAppSection.hidden = !Boolean(this.props.beforeInstallPromptEvent);
+
+    this._elInstall.disabled = this._state.installingProgress !== 'ready';
+    this._elInstallationAcceptedMessage.hidden =
+      this._state.installingProgress !== 'accepted';
+    this._elInstallationDismissedMessage.hidden =
+      this._state.installingProgress !== 'dismissed';
+  }
+
+  /**
+   * @param {Partial<PreferencesDialogState>} state
+   */
+  _setState(state) {
+    this._state = {
+      ...this._state,
+      ...state,
+    };
+
+    this._render();
   }
 
   _resetDefault () {

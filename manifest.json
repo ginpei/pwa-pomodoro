@@ -1,0 +1,16 @@
+{
+  "name": "Pomodoro",
+  "short_name": "Pomodoro",
+  "icons": [
+    {
+      "src": "/pwa-pomodoro/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "scope": "/pwa-pomodoro/",
+  "start_url": "/pwa-pomodoro/",
+  "display": "standalone",
+  "theme_color": "#003366",
+  "background_color": "#ffffff"
+}

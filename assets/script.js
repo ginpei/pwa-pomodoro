@@ -4,6 +4,9 @@ import PomodoroClockHand from './PomodoroClockHand.js';
 import PomodoroTimer from './PomodoroTimer.js';
 import PreferencesDialog from './PreferencesDialog.js';
 
+/** @type {BeforeInstallPromptEvent | null} */
+let beforeInstallPromptEvent = null;
+
 function main () {
   /** @type {PomodoroState} */
   const initialPomodoroState = {
@@ -17,6 +20,9 @@ function main () {
   /** @type {Map<string, [() => void, () => void]>} */
   const sceneActions = new Map();
   sceneActions.set('preferences', [() => {
+    preferencesDialog.updateProps({
+      beforeInstallPromptEvent,
+    });
     preferencesDialog.show();
   }, () => {
     preferencesDialog.hide();
@@ -88,6 +94,7 @@ function main () {
   });
 
   const preferencesDialog = new PreferencesDialog({
+    beforeInstallPromptEvent,
     el: findElement(document.body, 'preferencesDialog'),
     initialPomodoroState,
     onChange: (state) => {
@@ -95,6 +102,11 @@ function main () {
     },
     onDone: () => {
       window.history.back();
+    },
+    onInstall: (installed) => {
+      if (installed) {
+        beforeInstallPromptEvent = null;
+      }
     },
     pomodoroState: initialPomodoroState,
   });
@@ -122,6 +134,16 @@ function main () {
 }
 
 document.addEventListener('DOMContentLoaded', main);
+
+window.addEventListener('beforeinstallprompt',
+/**
+ * (BeforeInstallPromptEvent is not compatible with Event.
+ *  Use force-casting here until type definition is ready.)
+ * @param {any} event
+ */
+(event) => {
+  beforeInstallPromptEvent = event;
+});
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {

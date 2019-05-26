@@ -1,3 +1,14 @@
+/**
+ * TODO replace with official one when implemented.
+ */
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => void;
+  userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: 'web' | '' | string;
+  }>;
+}
+
 interface PomodoroState {
   breakTime: number;
   workTime: number;
@@ -38,9 +49,15 @@ interface PomodoroTimerState {
 }
 
 interface PreferencesDialogProps {
+  beforeInstallPromptEvent: BeforeInstallPromptEvent | null;
   el: HTMLElement;
   initialPomodoroState: PomodoroState;
   onChange: (state: PomodoroState) => void;
   onDone: () => void;
+  onInstall: (installed: boolean) => void;
   pomodoroState: PomodoroState;
+}
+
+interface PreferencesDialogState {
+  installingProgress: 'ready' | 'accepted' | 'dismissed';
 }

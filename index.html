@@ -9,6 +9,7 @@
   <title>Pomodoro</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="shortcut icon" href="assets/icon-512.png" />
+  <link rel="manifest" href="manifest.json" />
 </head>
 <body>
   <div id="app">
@@ -94,14 +95,22 @@
               <button data-js="resetDefault">Reset to default</button>
             </div>
           </section>
-          <section class="settingsGroup js-appGroup">
+          <section class="settingsGroup" data-js="appSection">
             <h2 class="settingsGroup-heading">App</h2>
             <div class="settingItem">
-              <button class="js-install">Install</button>
-              <p class="settingItem-description js-messageAfterInstalling" hidden>
+              <button data-js="install">Install</button>
+              <p
+                class="settingItem-description"
+                data-js="installationAcceptedMessage"
+                hidden
+              >
                 Installed.
               </p>
-              <p class="settingItem-description js-messageToRetryInstalling" hidden>
+              <p
+                class="settingItem-description"
+                data-js="installationDismissedMessage"
+                hidden
+              >
                 To try installing again, please reload current page.
               </p>
             </div>
