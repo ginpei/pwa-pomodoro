@@ -20,6 +20,16 @@ interface PomodoroClockHandProps {
 }
 
 interface PomodoroTimerProps {
-  cycle: number;
+  pomodoroStatus: PomodoroState;
+  onStatusChange: (status: PomodoroTimerStatus) => void;
   onUpdate: (progress: number) => void;
+}
+
+type PomodoroTimerStatus =
+  | 'stop'
+  | 'working'
+  | 'resting';
+
+interface PomodoroTimerState {
+  status: PomodoroTimerStatus;
 }

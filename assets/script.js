@@ -29,7 +29,7 @@ function main () {
     onChange: (values) => {
       circle.updateProps({ values });
       timer.updateProps({
-        cycle: values.workTime + values.workTime,
+        pomodoroStatus: values,
       });
       form.updateProps({ values });
     },
@@ -37,16 +37,22 @@ function main () {
   });
 
   const timer = new PomodoroTimer({
-    cycle: initialValues.workTime + initialValues.workTime,
+    onStatusChange: (status) => {
+      console.log('# status', status);
+      hand.updateProps({
+        degree: 0,
+      })
+    },
     onUpdate: (progress) => hand.updateProps({
       degree: progress * 360,
     }),
+    pomodoroStatus: initialValues,
   });
 
   /** @type {HTMLButtonElement} */
   const elStart = findElement(document.body, 'start');
   elStart.addEventListener('click', () => {
-  timer.start();
+    timer.start();
   });
 
   /** @type {HTMLButtonElement} */

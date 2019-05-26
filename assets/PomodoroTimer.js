@@ -1,17 +1,31 @@
 export default class PomodoroTimer {
   get progress () {
-    const { cycle } = this.props;
+    const { restTime, workTime } = this.props.pomodoroStatus;
+    const totalTime = workTime + restTime;
     const elapse = Date.now() - this._startedAt;
-    const progress = (elapse % cycle) / cycle;
+    const progress = (elapse % totalTime) / totalTime;
     return progress;
+  }
+
+  get threshold () {
+    const { restTime, workTime } = this.props.pomodoroStatus;
+    const totalTime = workTime + restTime;
+    const threshold = workTime / totalTime;
+    return threshold;
   }
 
   /**
    * @param {PomodoroTimerProps} props
    */
-  constructor(props) {
+  constructor (props) {
     /** @type {PomodoroTimerProps} */
     this.props = props;
+
+    /** @type {PomodoroTimerState} */
+    this.state = {
+      status: 'stop',
+    };
+
     this._startedAt = 0;
     this._tm = 0;
   }
@@ -36,6 +50,21 @@ export default class PomodoroTimer {
     this._startedAt = Date.now();
     const f = () => {
       this.props.onUpdate(this.progress);
+
+      if (this.state.status === 'stop') {
+        this._setStatus('working');
+      } else if (this.state.status === 'working') {
+        if (this.progress > this.threshold) {
+          this._setStatus('resting');
+        }
+      } else if (this.state.status === 'resting') {
+        if (this.progress < this.threshold) {
+          this._setStatus('working');
+        }
+      } else {
+        throw new Error('Unknown status has been set');
+      }
+
       this._tm = requestAnimationFrame(f);
     };
     f();
@@ -45,5 +74,18 @@ export default class PomodoroTimer {
     window.cancelAnimationFrame(this._tm);
     this._startedAt = 0;
     this._tm = 0;
+    this._setStatus('stop');
+  }
+
+  /**
+   * @param {PomodoroTimerStatus} status
+   */
+  _setStatus (status) {
+    this.state.status = status;
+    this._dispatchStatusChange();
+  }
+
+  _dispatchStatusChange () {
+    this.props.onStatusChange(this.state.status);
   }
 }
