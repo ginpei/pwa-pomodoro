@@ -36,3 +36,10 @@ type PomodoroTimerStatus =
 interface PomodoroTimerState {
   status: PomodoroTimerStatus;
 }
+
+interface PreferencesDialogProps {
+  el: HTMLElement;
+  onChange: (state: PomodoroState) => void;
+  onDone: () => void;
+  pomodoroState: PomodoroState;
+}

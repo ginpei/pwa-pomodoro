@@ -1,8 +1,8 @@
 import { findElement } from './misc.js';
 import PomodoroCircle from './PomodoroCircle.js';
 import PomodoroClockHand from './PomodoroClockHand.js';
-import PomodoroForm from './PomodoroForm.js';
 import PomodoroTimer from './PomodoroTimer.js';
+import PreferencesDialog from './PreferencesDialog.js';
 
 function main () {
   /** @type {PomodoroState} */
@@ -13,6 +13,14 @@ function main () {
 
   /** @type {HTMLCanvasElement} */
   const elCanvas = findElement(document.body, 'circle');
+
+  /** @type {Map<string, [() => void, () => void]>} */
+  const sceneActions = new Map();
+  sceneActions.set('preferences', [() => {
+    preferencesDialog.show();
+  }, () => {
+    preferencesDialog.hide();
+  }]);
 
   /**
    * @param  {PopStateEvent} [event]
@@ -34,10 +42,11 @@ function main () {
     }, new Map());
 
     const scene = queryMap.get('scene') || '';
-    const els = document.querySelectorAll('[data-scene]');
-    els.forEach((el) => {
-      if (el instanceof HTMLElement) {
-        el.hidden = el.dataset['scene'] !== scene;
+    sceneActions.forEach(([on, off], key) => {
+      if (key === scene) {
+        on();
+      } else {
+        off();
       }
     });
   };
@@ -54,17 +63,16 @@ function main () {
     degree: 0,
   });
 
-  const form = new PomodoroForm({
-    el: findElement(document.body, 'pomodoroForm'),
-    onChange: (values) => {
-      circle.updateProps({ values });
-      timer.updateProps({
-        pomodoroStatus: values,
-      });
-      form.updateProps({ values });
-    },
-    values: initialValues,
-  });
+  /**
+   * @param {PomodoroState} pomodoroState
+   */
+  const update = (pomodoroState) => {
+    circle.updateProps({ values: pomodoroState });
+    timer.updateProps({
+      pomodoroStatus: pomodoroState,
+    });
+    preferencesDialog.updateProps({ pomodoroState });
+  };
 
   const timer = new PomodoroTimer({
     onStatusChange: (status, old) => {
@@ -77,6 +85,17 @@ function main () {
       degree: progress * 360,
     }),
     pomodoroStatus: initialValues,
+  });
+
+  const preferencesDialog = new PreferencesDialog({
+    el: findElement(document.body, 'preferencesDialog'),
+    onChange: (state) => {
+      update(state);
+    },
+    onDone: () => {
+      window.history.back();
+    },
+    pomodoroState: initialValues,
   });
 
   /** @type {HTMLButtonElement} */
