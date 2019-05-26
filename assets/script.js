@@ -42,7 +42,18 @@ function main () {
       degree: progress * 360,
     }),
   });
+
+  /** @type {HTMLButtonElement} */
+  const elStart = findElement(document.body, 'start');
+  elStart.addEventListener('click', () => {
   timer.start();
+  });
+
+  /** @type {HTMLButtonElement} */
+  const elStop = findElement(document.body, 'stop');
+  elStop.addEventListener('click', () => {
+    timer.stop();
+  });
 }
 
 document.addEventListener('DOMContentLoaded', main);
