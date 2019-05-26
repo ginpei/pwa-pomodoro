@@ -64,10 +64,29 @@ export default class PreferencesDialog {
 
   show () {
     this.props.el.hidden = false;
+    if (this.props.el.animate) {
+      this.props.el.animate([
+        { opacity: 0, transform: 'scale(1.1)' },
+        { opacity: 1, transform: 'scale(1)' },
+      ], {
+        duration: 200,
+      });
+    }
   }
 
   hide () {
-    this.props.el.hidden = true;
+    const onfinish = () => this.props.el.hidden = true;
+    if (this.props.el.animate) {
+      const animation = this.props.el.animate([
+        { opacity: 1, transform: 'scale(1)' },
+        { opacity: 0, transform: 'scale(1.1)' },
+      ], {
+        duration: 200,
+      });
+      animation.onfinish = onfinish;
+    } else {
+      onfinish();
+    }
   }
 
   async onInstallClick () {
