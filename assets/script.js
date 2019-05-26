@@ -85,7 +85,7 @@ function main () {
       console.log('# status', `${old} -> ${status}`);
       hand.updateProps({
         degree: 0,
-      })
+      });
     },
     onUpdate: (progress) => hand.updateProps({
       degree: progress * 360,
