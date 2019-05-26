@@ -11,7 +11,7 @@ interface PomodoroFormProps {
 
 interface PomodoroCircleProps {
   el: HTMLCanvasElement;
-  values: PomodoroState;
+  pomodoroState: PomodoroState;
 }
 
 interface PomodoroClockHandProps {
@@ -20,7 +20,7 @@ interface PomodoroClockHandProps {
 }
 
 interface PomodoroTimerProps {
-  pomodoroStatus: PomodoroState;
+  pomodoroState: PomodoroState;
   onStatusChange: (
     status: PomodoroTimerStatus,
     oldStatus: PomodoroTimerStatus,

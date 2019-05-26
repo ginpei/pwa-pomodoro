@@ -1,6 +1,6 @@
 export default class PomodoroTimer {
   get progress () {
-    const { restTime, workTime } = this.props.pomodoroStatus;
+    const { restTime, workTime } = this.props.pomodoroState;
     const totalTime = workTime + restTime;
     const elapse = Date.now() - this._startedAt;
     const progress = (elapse % totalTime) / totalTime;
@@ -8,7 +8,7 @@ export default class PomodoroTimer {
   }
 
   get threshold () {
-    const { restTime, workTime } = this.props.pomodoroStatus;
+    const { restTime, workTime } = this.props.pomodoroState;
     const totalTime = workTime + restTime;
     const threshold = workTime / totalTime;
     return threshold;

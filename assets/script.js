@@ -6,7 +6,7 @@ import PreferencesDialog from './PreferencesDialog.js';
 
 function main () {
   /** @type {PomodoroState} */
-  const initialValues = {
+  const initialPomodoroState = {
     restTime: 5 * 60 * 1000,
     workTime: 25 * 60 * 1000,
   };
@@ -55,7 +55,7 @@ function main () {
 
   const circle = new PomodoroCircle({
     el: elCanvas,
-    values: initialValues,
+    pomodoroState: initialPomodoroState,
   });
 
   const hand = new PomodoroClockHand({
@@ -67,9 +67,9 @@ function main () {
    * @param {PomodoroState} pomodoroState
    */
   const update = (pomodoroState) => {
-    circle.updateProps({ values: pomodoroState });
+    circle.updateProps({ pomodoroState });
     timer.updateProps({
-      pomodoroStatus: pomodoroState,
+      pomodoroState,
     });
     preferencesDialog.updateProps({ pomodoroState });
   };
@@ -84,7 +84,7 @@ function main () {
     onUpdate: (progress) => hand.updateProps({
       degree: progress * 360,
     }),
-    pomodoroStatus: initialValues,
+    pomodoroState: initialPomodoroState,
   });
 
   const preferencesDialog = new PreferencesDialog({
@@ -95,7 +95,7 @@ function main () {
     onDone: () => {
       window.history.back();
     },
-    pomodoroState: initialValues,
+    pomodoroState: initialPomodoroState,
   });
 
   /** @type {HTMLButtonElement} */
