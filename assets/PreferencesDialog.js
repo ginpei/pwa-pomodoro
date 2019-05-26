@@ -73,7 +73,7 @@ export default class PreferencesDialog {
   async onInstallClick () {
     const e = this.props.beforeInstallPromptEvent;
     if (!e) {
-      throw new Error('Invoked unexpectedly');
+      throw new Error('Installation is not ready');
     }
 
     e.prompt();

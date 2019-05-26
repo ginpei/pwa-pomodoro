@@ -71,7 +71,7 @@
           <section class="settingsGroup">
             <h2 class="settingsGroup-heading">Timer</h2>
             <label class="settingItem">
-              <span class="settingItem-label">Work time (minutes)</span>
+              Work time (minutes)
               <input
                 class="settingItem-input"
                 data-js="workTime"
@@ -80,7 +80,7 @@
               />
             </label>
             <label class="settingItem">
-              <span class="settingItem-label">Break time (minutes)</span>
+              Break time (minutes)
               <input
                 class="settingItem-input"
                 data-js="breakTime"
@@ -90,30 +90,29 @@
             </label>
           </section>
           <section class="settingsGroup">
-            <h2 class="settingsGroup-heading">Data</h2>
-            <div class="settingItem">
-              <button data-js="resetDefault">Reset to default</button>
-            </div>
-          </section>
-          <section class="settingsGroup" data-js="appSection">
             <h2 class="settingsGroup-heading">App</h2>
-            <div class="settingItem">
-              <button data-js="install">Install</button>
+            <label class="settingItem">
+              <button class="settingItem-button" data-js="resetDefault">
+                Reset preferences to default
+              </button>
+            </label>
+            <label class="settingItem" data-js="appSection" hidden>
+              <button class="settingItem-button" data-js="install">
+                Install to this device
+              </button>
               <p
-                class="settingItem-description"
                 data-js="installationAcceptedMessage"
                 hidden
               >
                 Installed.
               </p>
               <p
-                class="settingItem-description"
                 data-js="installationDismissedMessage"
                 hidden
               >
                 To try installing again, please reload current page.
               </p>
-            </div>
+            </label>
           </section>
           <section class="settingsGroup">
             <h2 class="settingsGroup-heading">Copyright</h2>
