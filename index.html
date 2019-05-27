@@ -52,12 +52,44 @@
             ></canvas>
             <svg class="pomodoro-toggleButton" viewBox="0 0 100 100" data-js="toggle">
               <path
+                class="pomodoro-toggleSymbol"
                 d="
                   M 35 30
                   L 75 50
                   L 35 70
                 "
+                data-inactive="true"
+                data-js="start"
               />
+              <path
+                class="pomodoro-toggleSymbol"
+                d="
+                  M 35 35
+                  l 30  0
+                  l  0 30
+                  l -30  0
+                  l  0 -30
+                "
+                data-inactive="true"
+                data-js="stop"
+              />
+              <!-- <path
+                d="
+                  M 35 30
+                  l 10  0
+                  l  0 40
+                  l -10  0
+                  l  0 -40
+
+                  M 55 30
+                  l 10  0
+                  l  0 40
+                  l -10  0
+                  l  0 -40
+                "
+                data-js="pause"
+                display="none"
+              /> -->
             </svg>
           </div>
           <div class="pomodoro-digital" data-js="digitalClock">12:34.</div>

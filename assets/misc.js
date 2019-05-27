@@ -1,5 +1,5 @@
 /**
- * @param {HTMLElement} container
+ * @param {Element} container
  * @param {string} name
  * @return {any}
  */

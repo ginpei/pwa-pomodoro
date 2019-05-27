@@ -124,7 +124,13 @@ button {
   transform: rotate(var(--degree));
 }
 
-.pomodoro-toggleButton[data-hidden="true"] {
+.pomodoro-toggleSymbol {
+  display: block;
+  fill: #333;
+  transform-origin: center;
+}
+
+.pomodoro-toggleSymbol[data-inactive="true"] {
   display: none;
 }
 
