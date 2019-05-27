@@ -134,6 +134,10 @@ button {
   display: none;
 }
 
+.pomodoro-remainingTime {
+  font-family: 'Share Tech Mono', monospace;
+}
+
 /**
 * Dialog
 */

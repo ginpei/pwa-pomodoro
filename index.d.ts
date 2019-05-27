@@ -37,7 +37,7 @@ interface PomodoroTimerProps {
     status: PomodoroTimerStatus,
     oldStatus: PomodoroTimerStatus,
   ) => void;
-  onUpdate: (progress: number) => void;
+  onUpdate: (progress: number, remainingTime: number) => void;
 }
 
 type PomodoroTimerStatus =

@@ -1,4 +1,4 @@
-import { findElement } from './misc.js';
+import { findElement, remainTimeToString } from './misc.js';
 import PomodoroCircle from './PomodoroCircle.js';
 import PomodoroClockHand from './PomodoroClockHand.js';
 import PomodoroTimer from './PomodoroTimer.js';
@@ -17,6 +17,9 @@ function main () {
 
   /** @type {HTMLCanvasElement} */
   const elCanvas = findElement(document.body, 'circle');
+
+  /** @type {HTMLElement} */
+  const elRemainingTime = findElement(document.body, 'remainingTime');
 
   /** @type {Map<string, [() => void, () => void]>} */
   const sceneActions = new Map();
@@ -104,10 +107,18 @@ function main () {
       toggleButton.updateProps({
         active: status !== 'stop',
       });
+
+      elRemainingTime.textContent = '00:00';
     },
-    onUpdate: (progress) => hand.updateProps({
-      degree: progress * 360,
-    }),
+    onUpdate: (progress, remaining) => {
+      hand.updateProps({
+        degree: progress * 360,
+      });
+
+      const dot = (remaining % 1000) > 500 ? '.' : '\u00a0';
+      elRemainingTime.textContent =
+        `\u00a0${remainTimeToString(remaining)}${dot}`;
+    },
     pomodoroState: initialPomodoroState,
   });
 

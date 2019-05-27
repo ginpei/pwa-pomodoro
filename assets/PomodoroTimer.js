@@ -1,9 +1,13 @@
 export default class PomodoroTimer {
+  get elapse () {
+    const elapse = Date.now() - this._startedAt;
+    return elapse;
+  }
+
   get progress () {
     const { breakTime, workTime } = this.props.pomodoroState;
     const totalTime = workTime + breakTime;
-    const elapse = Date.now() - this._startedAt;
-    const progress = (elapse % totalTime) / totalTime;
+    const progress = (this.elapse % totalTime) / totalTime;
     return progress;
   }
 
@@ -12,6 +16,15 @@ export default class PomodoroTimer {
     const totalTime = workTime + breakTime;
     const threshold = workTime / totalTime;
     return threshold;
+  }
+
+  get remainingTime () {
+    const timeLength = this.props.pomodoroState.workTime
+      + (this.progress <= this.threshold
+        ? 0
+        : this.props.pomodoroState.breakTime);
+    const remainingTime = timeLength - this.elapse;
+    return remainingTime;
   }
 
   /**
@@ -49,7 +62,7 @@ export default class PomodoroTimer {
   start() {
     this._startedAt = Date.now();
     const f = () => {
-      this.props.onUpdate(this.progress);
+      this.props.onUpdate(this.progress, this.remainingTime);
 
       if (this.state.status === 'stop') {
         this._setStatus('working');
