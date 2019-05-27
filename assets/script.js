@@ -74,7 +74,13 @@ function main () {
   const toggleButton = new PomodoroToggleButton({
     active: false,
     el: findElement(document.body, 'toggle'),
-    onClick: () => timer.start(),
+    onClick: (active) => {
+      if (active) {
+        timer.stop();
+      } else {
+        timer.start();
+      }
+    },
   })
 
   /**
@@ -128,12 +134,6 @@ function main () {
   elOpenPreference.addEventListener('click', () => {
     window.history.pushState({}, '', '?scene=preferences');
     onHistoryChange();
-  });
-
-  /** @type {HTMLButtonElement} */
-  const elStop = findElement(document.body, 'stop');
-  elStop.addEventListener('click', () => {
-    timer.stop();
   });
 
   onHistoryChange();

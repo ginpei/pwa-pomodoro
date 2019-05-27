@@ -66,5 +66,5 @@ interface PreferencesDialogState {
 interface PomodoroToggleButtonProps {
   active: boolean;
   el: SVGSVGElement;
-  onClick: () => void;
+  onClick: (active: boolean) => void;
 }

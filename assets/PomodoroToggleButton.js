@@ -6,7 +6,9 @@ export default class PomodoroToggleButton {
     /** @type {PomodoroToggleButtonProps} */
     this.props = props;
 
-    props.el.addEventListener('click', props.onClick);
+    props.el.addEventListener('click', () => {
+      props.onClick(this.props.active);
+    });
   }
 
   /**
@@ -21,6 +23,6 @@ export default class PomodoroToggleButton {
   }
 
   _render () {
-    this.props.el.dataset['hidden'] = String(this.props.active);
+    // this.props.el.dataset['hidden'] = String(this.props.active);
   }
 }
