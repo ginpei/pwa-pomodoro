@@ -95,17 +95,20 @@ button {
 */
 
 .pomodoro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   margin: 1rem;
   overflow: auto;
   text-align: center;
 }
 
 .pomodoro-clockWrapper {
-  height: 50vmin;
+  height: 70vmin;
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  width: 50vmin;
+  width: 70vmin;
 }
 
 .pomodoro-circle,
@@ -136,6 +139,7 @@ button {
 
 .pomodoro-remainingTime {
   font-family: 'Share Tech Mono', monospace;
+  font-size: 10vmin;
 }
 
 /**
