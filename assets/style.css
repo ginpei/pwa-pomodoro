@@ -98,8 +98,9 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  margin: 1rem;
   overflow: auto;
+  overflow: hidden;
+  padding: 1rem;
   text-align: center;
 }
 
