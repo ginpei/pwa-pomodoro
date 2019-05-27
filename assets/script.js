@@ -8,6 +8,18 @@ import PreferencesDialog from './PreferencesDialog.js';
 /** @type {BeforeInstallPromptEvent | null} */
 let beforeInstallPromptEvent = null;
 
+/** @type {HTMLElement} */
+const elRemainingTime = findElement(document.body, 'remainingTime');
+
+/**
+ * @param {number} remainingTime
+ */
+function setRemainingTime (remainingTime) {
+  const dot = (remainingTime % 1000) > 500 ? '.' : '\u00a0';
+  const text = `\u00a0${remainTimeToString(remainingTime)}${dot}`;
+  elRemainingTime.textContent = text;
+}
+
 function main () {
   /** @type {PomodoroState} */
   const initialPomodoroState = {
@@ -17,9 +29,6 @@ function main () {
 
   /** @type {HTMLCanvasElement} */
   const elCanvas = findElement(document.body, 'circle');
-
-  /** @type {HTMLElement} */
-  const elRemainingTime = findElement(document.body, 'remainingTime');
 
   /** @type {Map<string, [() => void, () => void]>} */
   const sceneActions = new Map();
@@ -108,16 +117,14 @@ function main () {
         active: status !== 'stop',
       });
 
-      elRemainingTime.textContent = '00:00';
+      setRemainingTime(0);
     },
     onUpdate: (progress, remaining) => {
       hand.updateProps({
         degree: progress * 360,
       });
 
-      const dot = (remaining % 1000) > 500 ? '.' : '\u00a0';
-      elRemainingTime.textContent =
-        `\u00a0${remainTimeToString(remaining)}${dot}`;
+      setRemainingTime(remaining);
     },
     pomodoroState: initialPomodoroState,
   });
