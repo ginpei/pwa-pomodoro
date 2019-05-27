@@ -26,6 +26,7 @@ interface PomodoroCircleProps {
 }
 
 interface PomodoroClockHandProps {
+  active: boolean;
   el: HTMLCanvasElement;
   degree: number;
 }

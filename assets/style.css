@@ -13,6 +13,10 @@ button {
   min-height: 2rem;
 }
 
+svg[data-hidden="true"] {
+  display: none;
+}
+
 .container {
   margin-left: auto;
   margin-right: auto;
@@ -109,7 +113,8 @@ button {
 }
 
 .pomodoro-circle,
-.pomodoro-clockHand {
+.pomodoro-clockHand,
+.pomodoro-start {
   height: 100%;
   left: 0;
   position: absolute;

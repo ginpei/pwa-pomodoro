@@ -47,12 +47,21 @@
               class="pomodoro-clockHand"
               data-js="clockHand"
               height="1000"
+              hidden
               width="1000"
             ></canvas>
+            <svg class="pomodoro-start" viewBox="0 0 100 100" data-js="start">
+              <path
+                d="
+                  M 35 30
+                  L 75 50
+                  L 35 70
+                "
+              />
+            </svg>
           </div>
           <div class="pomodoro-digital" data-js="digitalClock">12:34.</div>
           <p>
-            <button data-js="start">Start</button>
             <button data-js="stop">Stop</button>
           </p>
         </div>

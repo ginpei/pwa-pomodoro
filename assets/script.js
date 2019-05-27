@@ -65,6 +65,7 @@ function main () {
   });
 
   const hand = new PomodoroClockHand({
+    active: false,
     el: findElement(document.body, 'clockHand'),
     degree: 0,
   });
@@ -84,8 +85,10 @@ function main () {
     onStatusChange: (status, old) => {
       console.log('# status', `${old} -> ${status}`);
       hand.updateProps({
+        active: status !== 'stop',
         degree: 0,
       });
+      elStart.dataset['hidden'] = String(status !== 'stop');
     },
     onUpdate: (progress) => hand.updateProps({
       degree: progress * 360,
@@ -118,7 +121,7 @@ function main () {
     onHistoryChange();
   });
 
-  /** @type {HTMLButtonElement} */
+  /** @type {SVGSVGElement} */
   const elStart = findElement(document.body, 'start');
   elStart.addEventListener('click', () => {
     timer.start();
