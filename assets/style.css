@@ -13,10 +13,6 @@ button {
   min-height: 2rem;
 }
 
-svg[data-hidden="true"] {
-  display: none;
-}
-
 .container {
   margin-left: auto;
   margin-right: auto;
@@ -114,7 +110,7 @@ svg[data-hidden="true"] {
 
 .pomodoro-circle,
 .pomodoro-clockHand,
-.pomodoro-start {
+.pomodoro-toggleButton {
   height: 100%;
   left: 0;
   position: absolute;
@@ -126,6 +122,10 @@ svg[data-hidden="true"] {
   --degree: 0deg;
 
   transform: rotate(var(--degree));
+}
+
+.pomodoro-toggleButton[data-hidden="true"] {
+  display: none;
 }
 
 /**

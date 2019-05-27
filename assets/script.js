@@ -2,6 +2,7 @@ import { findElement } from './misc.js';
 import PomodoroCircle from './PomodoroCircle.js';
 import PomodoroClockHand from './PomodoroClockHand.js';
 import PomodoroTimer from './PomodoroTimer.js';
+import PomodoroToggleButton from './PomodoroToggleButton.js';
 import PreferencesDialog from './PreferencesDialog.js';
 
 /** @type {BeforeInstallPromptEvent | null} */
@@ -70,6 +71,12 @@ function main () {
     degree: 0,
   });
 
+  const toggleButton = new PomodoroToggleButton({
+    active: false,
+    el: findElement(document.body, 'toggle'),
+    onClick: () => timer.start(),
+  })
+
   /**
    * @param {PomodoroState} pomodoroState
    */
@@ -88,7 +95,9 @@ function main () {
         active: status !== 'stop',
         degree: 0,
       });
-      elStart.dataset['hidden'] = String(status !== 'stop');
+      toggleButton.updateProps({
+        active: status !== 'stop',
+      });
     },
     onUpdate: (progress) => hand.updateProps({
       degree: progress * 360,
@@ -119,12 +128,6 @@ function main () {
   elOpenPreference.addEventListener('click', () => {
     window.history.pushState({}, '', '?scene=preferences');
     onHistoryChange();
-  });
-
-  /** @type {SVGSVGElement} */
-  const elStart = findElement(document.body, 'start');
-  elStart.addEventListener('click', () => {
-    timer.start();
   });
 
   /** @type {HTMLButtonElement} */

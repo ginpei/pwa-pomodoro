@@ -62,3 +62,9 @@ interface PreferencesDialogProps {
 interface PreferencesDialogState {
   installingProgress: 'ready' | 'accepted' | 'dismissed';
 }
+
+interface PomodoroToggleButtonProps {
+  active: boolean;
+  el: SVGSVGElement;
+  onClick: () => void;
+}
