@@ -17,7 +17,9 @@ const elRemainingTime = findElement(document.body, 'remainingTime');
 function setRemainingTime (remainingTime) {
   const dot = (remainingTime % 1000) > 500 ? '.' : '\u00a0';
   const text = `\u00a0${remainTimeToString(remainingTime)}${dot}`;
-  elRemainingTime.textContent = text;
+  if (elRemainingTime.textContent !== text) {
+    elRemainingTime.textContent = text;
+  }
 }
 
 function main () {
