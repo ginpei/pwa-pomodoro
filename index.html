@@ -134,6 +134,36 @@
             </label>
           </section>
           <section class="settingsGroup">
+            <h2 class="settingsGroup-heading">Notification</h2>
+            <label class="settingItem">
+              <input type="checkbox" data-js="pushNotificationEnabled" />
+              Push notification
+            </label>
+            <label class="settingItem">
+              Sound
+              <select class="settingItem-input" data-js="sound">
+                <option value="chime">Chime</option>
+                <option value="none">Silent (no sounds)</option>
+              </select>
+            </label>
+            <label class="settingItem">
+              Volume (<span data-js="volumeValue">0</span>)
+              <input
+                class="settingItem-input"
+                data-js="volume"
+                max="100"
+                min="0"
+                step="10"
+                type="range"
+              />
+            </label>
+            <label class="settingItem">
+              <button class="settingItem-button" data-js="playSound">
+                Play sound
+              </button>
+            </label>
+          </section>
+          <section class="settingsGroup">
             <h2 class="settingsGroup-heading">App</h2>
             <label class="settingItem">
               <button class="settingItem-button" data-js="resetDefault">

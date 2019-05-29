@@ -16,6 +16,9 @@ interface DialogProps {
 
 interface PomodoroState {
   breakTime: number;
+  pushNotificationEnabled: boolean;
+  sound: string;
+  volume: number; // 0.0 - 1.0
   workTime: number;
 }
 

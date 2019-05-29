@@ -26,6 +26,9 @@ function main () {
   /** @type {PomodoroState} */
   const initialPomodoroState = {
     breakTime: 5 * 60 * 1000,
+    pushNotificationEnabled: false,
+    sound: 'chime',
+    volume: 1,
     workTime: 25 * 60 * 1000,
   };
 

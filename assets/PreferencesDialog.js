@@ -26,6 +26,25 @@ export default class PreferencesDialog extends Dialog {
     this._elBreakTime = findElement(el, 'breakTime');
     this._elBreakTime.addEventListener('input', () => this._dispatchChange());
 
+    /** @type {HTMLInputElement} */
+    this._elPushNotificationEnabled = findElement(el, 'pushNotificationEnabled');
+    this._elPushNotificationEnabled.addEventListener('input', () => this._dispatchChange());
+
+    /** @type {HTMLInputElement} */
+    this._elSound = findElement(el, 'sound');
+    this._elSound.addEventListener('input', () => this._dispatchChange());
+
+    /** @type {HTMLElement} */
+    this._elVolumeValue = findElement(el, 'volumeValue');
+
+    /** @type {HTMLInputElement} */
+    this._elVolume = findElement(el, 'volume');
+    this._elVolume.addEventListener('input', () => this._dispatchChange());
+
+    /** @type {HTMLButtonElement} */
+    this._elPlaySound = findElement(el, 'playSound');
+    this._elPlaySound.addEventListener('click', () => this._playSound());
+
     /** @type {HTMLButtonElement} */
     this._elResetDefault = findElement(el, 'resetDefault');
     this._elResetDefault.addEventListener('click', () => this._resetDefault());
@@ -71,11 +90,19 @@ export default class PreferencesDialog extends Dialog {
   _render () {
     const state = this.props.pomodoroState;
 
+    // timer
     this._elWorkTime.value = String(this._msToMin(state.workTime));
     this._elBreakTime.value = String(this._msToMin(state.breakTime));
 
-    this._elAppSection.hidden = !Boolean(this.props.beforeInstallPromptEvent);
+    // notification
+    this._elPushNotificationEnabled.checked = state.pushNotificationEnabled;
+    this._elSound.value = state.sound;
+    const volumeText = String(Math.round(state.volume * 100));
+    this._elVolumeValue.textContent = volumeText;
+    this._elVolume.value = volumeText;
 
+    // app
+    this._elAppSection.hidden = !Boolean(this.props.beforeInstallPromptEvent);
     this._elInstall.disabled = this._state.installingProgress !== 'ready';
     this._elInstallationAcceptedMessage.hidden =
       this._state.installingProgress !== 'accepted';
@@ -88,6 +115,11 @@ export default class PreferencesDialog extends Dialog {
    */
   _setState(state) {
     super._setState(state);
+  }
+
+  _playSound () {
+    // WUP
+    console.log(`# play sound`);
   }
 
   _resetDefault () {
@@ -106,6 +138,9 @@ export default class PreferencesDialog extends Dialog {
     this.props.onChange({
       ...this.props.pomodoroState,
       breakTime: this._minToMs(Number(this._elBreakTime.value)),
+      pushNotificationEnabled: this._elPushNotificationEnabled.checked,
+      sound: this._elSound.value,
+      volume: Math.round(Number(this._elVolume.value)) / 100 || 0,
       workTime: this._minToMs(Number(this._elWorkTime.value)),
     });
   }
