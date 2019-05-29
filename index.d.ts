@@ -9,6 +9,11 @@ interface BeforeInstallPromptEvent extends Event {
   }>;
 }
 
+interface DialogProps {
+  el: HTMLElement;
+  onDone: () => void;
+}
+
 interface PomodoroState {
   breakTime: number;
   workTime: number;
@@ -49,12 +54,10 @@ interface PomodoroTimerState {
   status: PomodoroTimerStatus;
 }
 
-interface PreferencesDialogProps {
+interface PreferencesDialogProps extends DialogProps {
   beforeInstallPromptEvent: BeforeInstallPromptEvent | null;
-  el: HTMLElement;
   initialPomodoroState: PomodoroState;
   onChange: (state: PomodoroState) => void;
-  onDone: () => void;
   onInstall: (installed: boolean) => void;
   pomodoroState: PomodoroState;
 }

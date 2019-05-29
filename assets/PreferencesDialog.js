@@ -1,12 +1,15 @@
+import Dialog from './Dialog.js';
 import { findElement } from './misc.js';
 
-export default class PreferencesDialog {
+export default class PreferencesDialog extends Dialog {
   /**
    * @param {PreferencesDialogProps} props
    */
   constructor (props) {
+    super(props);
+
     /** @type {PreferencesDialogProps} */
-    this.props = props;
+    this.props;
 
     /** @type {PreferencesDialogState} */
     this._state = {
@@ -14,10 +17,6 @@ export default class PreferencesDialog {
     };
 
     const { el } = this.props;
-
-    /** @type {HTMLButtonElement} */
-    this._elDone = findElement(el, 'done');
-    this._elDone.addEventListener('click', () => this.props.onDone());
 
     /** @type {HTMLInputElement} */
     this._elWorkTime = findElement(el, 'workTime');
@@ -51,42 +50,7 @@ export default class PreferencesDialog {
    * @param {Partial<PreferencesDialogProps>} props
    */
   updateProps (props) {
-    this.props = {
-      ...this.props,
-      ...props,
-    };
-
-    this._render();
-  }
-
-  destroy () {
-  }
-
-  show () {
-    this.props.el.hidden = false;
-    if (this.props.el.animate) {
-      this.props.el.animate([
-        { opacity: 0, transform: 'scale(1.1)' },
-        { opacity: 1, transform: 'scale(1)' },
-      ], {
-        duration: 100,
-      });
-    }
-  }
-
-  hide () {
-    const onfinish = () => this.props.el.hidden = true;
-    if (this.props.el.animate) {
-      const animation = this.props.el.animate([
-        { opacity: 1, transform: 'scale(1)' },
-        { opacity: 0, transform: 'scale(1.1)' },
-      ], {
-        duration: 100,
-      });
-      animation.onfinish = onfinish;
-    } else {
-      onfinish();
-    }
+    super.updateProps(props);
   }
 
   async onInstallClick () {
@@ -123,12 +87,7 @@ export default class PreferencesDialog {
    * @param {Partial<PreferencesDialogState>} state
    */
   _setState(state) {
-    this._state = {
-      ...this._state,
-      ...state,
-    };
-
-    this._render();
+    super._setState(state);
   }
 
   _resetDefault () {
