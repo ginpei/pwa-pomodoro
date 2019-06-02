@@ -24,13 +24,13 @@ function setRemainingTime (remainingTime) {
 
 function main () {
   /** @type {PomodoroState} */
-  const initialPomodoroState = {
+  const initialPomodoroState = Object.freeze({
     breakTime: 5 * 60 * 1000,
     pushNotificationEnabled: false,
     sound: 'chime',
     volume: 1,
     workTime: 25 * 60 * 1000,
-  };
+  });
 
   /** @type {HTMLCanvasElement} */
   const elCanvas = findElement(document.body, 'circle');
