@@ -1,3 +1,13 @@
 @import "./basics.css";
 @import "./dialog.css";
 @import "./timer.css";
+
+use[href="#play"] {
+  transform-origin: center;
+  transform: scale(0.5) translateX(30px);
+}
+
+use[href="#stop"] {
+  transform-origin: center;
+  transform: scale(0.5);
+}
