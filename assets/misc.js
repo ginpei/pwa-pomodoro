@@ -47,3 +47,53 @@ export function remainTimeToString (remaining) {
   const str = `${deg2(min)}:${deg2(sec)}`;
   return str;
 }
+
+/**
+ * @param {MouseEvent} event
+ * @returns {Pos}
+ */
+export function eventToPosition (event) {
+  return {
+    x: event.clientX,
+    y: event.clientY,
+  };
+}
+
+/**
+ * @param {Pos} pos
+ */
+export function posString (pos) {
+  return `${pos.x}x${pos.y}`;
+}
+
+/**
+ * @param {Pos} p1
+ * @param {Pos} p2
+ * @returns {Pos}
+ */
+export function getPosDiff (p1, p2) {
+  /** @type {Pos} */
+  const diff = {
+    x: p1.x - p2.x,
+    y: p1.y - p2.y,
+  };
+  return diff;
+}
+
+/**
+ * @param {Pos} p1
+ * @param {Pos} p2
+ */
+export function measureDistance (p1, p2) {
+  const d = getPosDiff(p1, p2);
+  const distance = Math.sqrt(d.x ** 2 + d.y ** 2);
+  return distance;
+}
+
+/**
+ * @param {Pos} p
+ */
+export function measureDegree (p) {
+  const a0 = Math.atan2(p.y, p.x) * 360 / (Math.PI * 2);
+  return (a0 + 360 + 90) % 360;
+}

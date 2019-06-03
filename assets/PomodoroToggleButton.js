@@ -8,7 +8,6 @@ export default class PomodoroToggleButton {
     /** @type {PomodoroToggleButtonProps} */
     this.props = props;
 
-    this._animating = false;
     this._initialized = false;
 
     const { el } = this.props;
@@ -18,14 +17,6 @@ export default class PomodoroToggleButton {
 
     /** @type {SVGPathElement} */
     this._elStop = findElement(el, 'stop');
-
-    props.el.addEventListener('click', () => {
-      if (this._animating) {
-        return;
-      }
-
-      props.onClick(this.props.active);
-    });
 
     this._render();
     this._initialized = true;

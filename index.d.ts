@@ -14,6 +14,7 @@ interface DialogProps {
   onDone: () => void;
 }
 
+// TODO rename to preferences
 interface PomodoroState {
   breakTime: number;
   pushNotificationEnabled: boolean;
@@ -26,6 +27,14 @@ interface PomodoroFormProps {
   el: HTMLElement;
   onChange: (values: PomodoroState) => void;
   values: PomodoroState;
+}
+
+interface PomodoroClockProps {
+  active: boolean;
+  el: HTMLElement;
+  onClick: (active: boolean) => void;
+  onTurn: (degree: number) => void;
+  pomodoroState: PomodoroState;
 }
 
 interface PomodoroCircleProps {
@@ -72,5 +81,9 @@ interface PreferencesDialogState {
 interface PomodoroToggleButtonProps {
   active: boolean;
   el: SVGSVGElement;
-  onClick: (active: boolean) => void;
+}
+
+interface Pos {
+  x: number;
+  y: number;
 }

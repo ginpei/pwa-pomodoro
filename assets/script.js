@@ -1,5 +1,6 @@
 import { findElement, remainTimeToString } from './misc.js';
 import PomodoroCircle from './PomodoroCircle.js';
+import PomodoroClock from './PomodoroClock.js';
 import PomodoroClockHand from './PomodoroClockHand.js';
 import PomodoroTimer from './PomodoroTimer.js';
 import PomodoroToggleButton from './PomodoroToggleButton.js';
@@ -77,6 +78,23 @@ function main () {
 
   window.addEventListener('popstate', onHistoryChange);
 
+  const clock = new PomodoroClock({
+    active: false,
+    el: findElement(document.body, 'clock'),
+    pomodoroState: initialPomodoroState,
+    onClick: (active) => {
+      if (active) {
+        timer.stop();
+      } else {
+        timer.start();
+      }
+    },
+    onTurn: (degree) => {
+      const progress = degree / 360;
+      timer.setProgress(progress);
+    },
+  });
+
   const circle = new PomodoroCircle({
     el: elCanvas,
     pomodoroState: initialPomodoroState,
@@ -91,14 +109,7 @@ function main () {
   const toggleButton = new PomodoroToggleButton({
     active: false,
     el: findElement(document.body, 'toggle'),
-    onClick: (active) => {
-      if (active) {
-        timer.stop();
-      } else {
-        timer.start();
-      }
-    },
-  })
+  });
 
   /**
    * @param {PomodoroState} pomodoroState
@@ -114,6 +125,9 @@ function main () {
   const timer = new PomodoroTimer({
     onStatusChange: (status, old) => {
       console.log('# status', `${old} -> ${status}`);
+      clock.updateProps({
+        active: status !== 'stop',
+      });
       hand.updateProps({
         active: status !== 'stop',
         degree: 0,
