@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { findElement, remainTimeToString } from './misc.js';
 import PomodoroCircle from './PomodoroCircle.js';
 import PomodoroClock from './PomodoroClock.js';
@@ -47,10 +48,7 @@ function main () {
     preferencesDialog.hide();
   }]);
 
-  /**
-   * @param  {PopStateEvent} [event]
-   */
-  const onHistoryChange = (event) => {
+  const onHistoryChange = () => {
     const search = window.location.search.slice(1);
     const sPairs = search.split('&');
     /** @type {Map<string, string>} */
@@ -124,6 +122,7 @@ function main () {
 
   const timer = new PomodoroTimer({
     onStatusChange: (status, old) => {
+      // WIP
       console.log('# status', `${old} -> ${status}`);
       clock.updateProps({
         active: status !== 'stop',
@@ -184,14 +183,15 @@ window.addEventListener('beforeinstallprompt',
  *  Use force-casting here until type definition is ready.)
  * @param {any} event
  */
-(event) => {
-  beforeInstallPromptEvent = event;
-});
+  (event) => {
+    beforeInstallPromptEvent = event;
+  });
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
-      await navigator.serviceWorker.register('/pwa-pomodoro/service-worker.js')
+      await navigator.serviceWorker.register('/pwa-pomodoro/service-worker.js');
+      // eslint-disable-next-line no-console
       console.log('[ServiceWorker] Register');
     } catch (error) {
       console.error(error);

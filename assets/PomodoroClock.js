@@ -1,4 +1,6 @@
-import { eventToPosition, findElement, measureDistance, posString, measureDegree, getPosDiff } from "./misc.js";
+import {
+  eventToPosition, findElement, getPosDiff, measureDegree, measureDistance,
+} from './misc.js';
 
 export default class PomodoroClock {
   /** @type {Pos} */
@@ -6,7 +8,7 @@ export default class PomodoroClock {
     const { el } = this.props;
     const center = {
       x: el.offsetLeft + el.clientWidth / 2,
-      y: el.offsetTop + el.clientHeight / 2
+      y: el.offsetTop + el.clientHeight / 2,
     };
     return center;
   }
@@ -21,7 +23,7 @@ export default class PomodoroClock {
   /**
    * @param {PomodoroClockProps} props
    */
-  constructor(props) {
+  constructor (props) {
     this.onClick = this.onClick.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -37,46 +39,46 @@ export default class PomodoroClock {
 
     const { el } = this.props;
 
-    el.addEventListener("click", this.onClick);
-    el.addEventListener("mousedown", this.onMouseDown);
-    el.addEventListener("touchstart", this.onTouchStart);
-    document.addEventListener("mousemove", this.onMouseMove);
-    document.addEventListener("mouseup", this.onMouseUp);
-    document.addEventListener("touchmove", this.onTouchMove);
-    document.addEventListener("touchend", this.onTouchEnd);
+    el.addEventListener('click', this.onClick);
+    el.addEventListener('mousedown', this.onMouseDown);
+    el.addEventListener('touchstart', this.onTouchStart);
+    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('mouseup', this.onMouseUp);
+    document.addEventListener('touchmove', this.onTouchMove);
+    document.addEventListener('touchend', this.onTouchEnd);
 
     /** @type {SVGPathElement} */
-    this._elStart = findElement(el, "start");
+    this._elStart = findElement(el, 'start');
 
     /** @type {SVGPathElement} */
-    this._elStop = findElement(el, "stop");
+    this._elStop = findElement(el, 'stop');
 
     this._render();
   }
 
-  destroy() {
+  destroy () {
     const { el } = this.props;
-    el.removeEventListener("click", this.onClick);
-    el.removeEventListener("mousedown", this.onMouseDown);
-    el.removeEventListener("touchstart", this.onTouchStart);
-    document.removeEventListener("mousemove", this.onMouseMove);
-    document.removeEventListener("mouseup", this.onMouseUp);
-    document.removeEventListener("touchmove", this.onTouchMove);
-    document.removeEventListener("touchend", this.onTouchEnd);
+    el.removeEventListener('click', this.onClick);
+    el.removeEventListener('mousedown', this.onMouseDown);
+    el.removeEventListener('touchstart', this.onTouchStart);
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('touchmove', this.onTouchMove);
+    document.removeEventListener('touchend', this.onTouchEnd);
   }
 
   /**
    * @param {Partial<PomodoroClockProps>} props
    */
-  updateProps(props) {
+  updateProps (props) {
     this.props = {
       ...this.props,
-      ...props
+      ...props,
     };
     this._render();
   }
 
-  onClick() {
+  onClick () {
     if (this._animating || this._dragging) {
       return;
     }
@@ -87,21 +89,21 @@ export default class PomodoroClock {
   /**
    * @param {MouseEvent} event
    */
-  onMouseDown(event) {
+  onMouseDown (event) {
     this._handleDragStartEvent(event);
   }
 
   /**
    * @param {MouseEvent} event
    */
-  onMouseMove(event) {
+  onMouseMove (event) {
     this._handleDragMoveEvent(event);
   }
 
   /**
    * @param {MouseEvent} event
    */
-  onMouseUp(event) {
+  onMouseUp (event) {
     this._handleDragEndEvent(event);
   }
 
@@ -126,7 +128,7 @@ export default class PomodoroClock {
     this._handleDragEndEvent(event);
   }
 
-  _render() {
+  _render () {
   }
 
   /**
@@ -186,51 +188,51 @@ export default class PomodoroClock {
   /**
    * @param {boolean} active
    */
-  _animateSymbols(active) {
+  _animateSymbols (active) {
     if (active) {
       this._animating = true;
       const animation = this._elStart.animate(
         [
-          { opacity: 1, transform: "scale(1)" },
-          { opacity: 0, transform: "scale(1.5)" }
+          { opacity: 1, transform: 'scale(1)' },
+          { opacity: 0, transform: 'scale(1.5)' },
         ],
         {
-          duration: 300
-        }
+          duration: 300,
+        },
       );
       animation.onfinish = () => {
-        this._elStart.dataset["inactive"] = "true";
-        this._elStop.dataset["inactive"] = "true";
+        this._elStart.dataset.inactive = 'true';
+        this._elStop.dataset.inactive = 'true';
         this._animating = false;
       };
     } else {
-      this._elStop.dataset["inactive"] = "false";
+      this._elStop.dataset.inactive = 'false';
 
       this._animating = true;
       const animStop = this._elStop.animate(
         [
-          { opacity: 1, transform: "scale(1)" },
-          { opacity: 0, transform: "scale(1.5)" }
+          { opacity: 1, transform: 'scale(1)' },
+          { opacity: 0, transform: 'scale(1.5)' },
         ],
         {
-          duration: 300
-        }
+          duration: 300,
+        },
       );
 
       animStop.onfinish = () => {
-        this._elStop.dataset["inactive"] = "true";
+        this._elStop.dataset.inactive = 'true';
       };
 
       setTimeout(() => {
-        this._elStart.dataset["inactive"] = "false";
+        this._elStart.dataset.inactive = 'false';
         const animStart = this._elStart.animate(
           [
-            { opacity: 0, transform: "scale(0.5)" },
-            { opacity: 1, transform: "scale(1)" }
+            { opacity: 0, transform: 'scale(0.5)' },
+            { opacity: 1, transform: 'scale(1)' },
           ],
           {
-            duration: 300
-          }
+            duration: 300,
+          },
         );
         animStart.onfinish = () => {
           this._animating = false;

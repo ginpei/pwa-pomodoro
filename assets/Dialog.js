@@ -65,7 +65,7 @@ export default class Dialog {
   /**
    * @param {Partial<PreferencesDialogState>} state
    */
-  _setState(state) {
+  _setState (state) {
     this._state = {
       ...this._state,
       ...state,

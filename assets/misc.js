@@ -17,7 +17,7 @@ export function findElement (container, name) {
  * @param {(event: Event) => void} listener
  * @returns {() => void} Unsubscriber.
  */
-export function addListener(el, type, listener) {
+export function addListener (el, type, listener) {
   el.addEventListener(type, listener);
   const off = () => el.removeEventListener(type, listener);
   return off;
@@ -59,7 +59,7 @@ export function eventToPosition (event) {
     return {
       x: t.clientX,
       y: t.clientY,
-    }
+    };
   }
 
   return {
@@ -95,7 +95,7 @@ export function getPosDiff (p1, p2) {
  */
 export function measureDistance (p1, p2) {
   const d = getPosDiff(p1, p2);
-  const distance = Math.sqrt(d.x ** 2 + d.y ** 2);
+  const distance = Math.sqrt((d.x ** 2) + (d.y ** 2));
   return distance;
 }
 

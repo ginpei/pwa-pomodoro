@@ -9,7 +9,7 @@ export default class PreferencesDialog extends Dialog {
     super(props);
 
     /** @type {PreferencesDialogProps} */
-    this.props;
+    this.props = props;
 
     /** @type {PreferencesDialogState} */
     this._state = {
@@ -57,10 +57,8 @@ export default class PreferencesDialog extends Dialog {
     this._elInstall.addEventListener('click', () => this.onInstallClick());
 
     /** @type {HTMLElement} */
-    this._elInstallationAcceptedMessage =
-      findElement(el, 'installationAcceptedMessage');
-    this._elInstallationDismissedMessage =
-      findElement(el, 'installationDismissedMessage');
+    this._elInstallationAcceptedMessage = findElement(el, 'installationAcceptedMessage');
+    this._elInstallationDismissedMessage = findElement(el, 'installationDismissedMessage');
 
     this._render();
   }
@@ -102,27 +100,26 @@ export default class PreferencesDialog extends Dialog {
     this._elVolume.value = volumeText;
 
     // app
-    this._elAppSection.hidden = !Boolean(this.props.beforeInstallPromptEvent);
+    this._elAppSection.hidden = !this.props.beforeInstallPromptEvent;
     this._elInstall.disabled = this._state.installingProgress !== 'ready';
-    this._elInstallationAcceptedMessage.hidden =
-      this._state.installingProgress !== 'accepted';
-    this._elInstallationDismissedMessage.hidden =
-      this._state.installingProgress !== 'dismissed';
+    this._elInstallationAcceptedMessage.hidden = this._state.installingProgress !== 'accepted';
+    this._elInstallationDismissedMessage.hidden = this._state.installingProgress !== 'dismissed';
   }
 
   /**
    * @param {Partial<PreferencesDialogState>} state
    */
-  _setState(state) {
+  _setState (state) {
     super._setState(state);
   }
 
   _playSound () {
-    // WUP
-    console.log(`# play sound`);
+    // WIP
+    console.log('# play sound');
   }
 
   _resetDefault () {
+    // eslint-disable-next-line no-alert
     const ok = window.confirm('Are you sure you want to reset all settings?');
     if (!ok) {
       return;

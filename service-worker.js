@@ -1,24 +1,27 @@
 /** @type {ServiceWorkerGlobalScope} */
 // @ts-ignore
+// eslint-disable-next-line no-restricted-globals
 const sw = self;
 
 const base = '/pwa-pomodoro/';
 
 const cachePaths = [
-  `offline.html`,
+  'offline.html',
 ].map((v) => `${base}${v}`);
 
-function getCache() {
+function getCache () {
   return caches.open('pwa-pomodoro');
 }
 
-sw.addEventListener('install', (event) => {
+sw.addEventListener('install', () => {
+  // eslint-disable-next-line no-console
   console.log('[ServiceWorker] Install');
 
   sw.skipWaiting();
 });
 
 sw.addEventListener('activate', (event) => {
+  // eslint-disable-next-line no-console
   console.log('[ServiceWorker] Activate');
 
   const p = getCache()

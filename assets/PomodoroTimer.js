@@ -64,7 +64,7 @@ export default class PomodoroTimer {
     }
   }
 
-  start() {
+  start () {
     this._startedAt = Date.now();
     const f = () => {
       this.props.onUpdate(this.progress, this.remainingTime);
@@ -88,7 +88,7 @@ export default class PomodoroTimer {
     f();
   }
 
-  stop() {
+  stop () {
     window.cancelAnimationFrame(this._tm);
     this._startedAt = 0;
     this._tm = 0;
