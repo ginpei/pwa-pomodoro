@@ -129,7 +129,6 @@ function main () {
       });
       hand.updateProps({
         active: status !== 'stop',
-        degree: 0,
       });
       toggleButton.updateProps({
         active: status !== 'stop',
