@@ -1,6 +1,6 @@
 export default class PomodoroTimer {
   get elapse () {
-    const elapse = Date.now() - this._startedAt;
+    const elapse = (Date.now() - this._startedAt) % this.totalTime;
     return elapse;
   }
 
