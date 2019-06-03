@@ -49,10 +49,19 @@ export function remainTimeToString (remaining) {
 }
 
 /**
- * @param {MouseEvent} event
+ * Returns a point that the event indicates.
+ * @param {MouseEvent | TouchEvent} event
  * @returns {Pos}
  */
 export function eventToPosition (event) {
+  if (event instanceof TouchEvent) {
+    const t = event.touches[0];
+    return {
+      x: t.clientX,
+      y: t.clientY,
+    }
+  }
+
   return {
     x: event.clientX,
     y: event.clientY,

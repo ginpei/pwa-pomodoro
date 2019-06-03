@@ -26,6 +26,9 @@ export default class PomodoroClock {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+    this.onTouchStart = this.onTouchStart.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
+    this.onTouchEnd = this.onTouchEnd.bind(this);
 
     /** @type {PomodoroClockProps} */
     this.props = props;
@@ -36,8 +39,11 @@ export default class PomodoroClock {
 
     el.addEventListener("click", this.onClick);
     el.addEventListener("mousedown", this.onMouseDown);
+    el.addEventListener("touchstart", this.onTouchStart);
     document.addEventListener("mousemove", this.onMouseMove);
     document.addEventListener("mouseup", this.onMouseUp);
+    document.addEventListener("touchmove", this.onTouchMove);
+    document.addEventListener("touchend", this.onTouchEnd);
 
     /** @type {SVGPathElement} */
     this._elStart = findElement(el, "start");
@@ -52,8 +58,11 @@ export default class PomodoroClock {
     const { el } = this.props;
     el.removeEventListener("click", this.onClick);
     el.removeEventListener("mousedown", this.onMouseDown);
+    el.removeEventListener("touchstart", this.onTouchStart);
     document.removeEventListener("mousemove", this.onMouseMove);
     document.removeEventListener("mouseup", this.onMouseUp);
+    document.removeEventListener("touchmove", this.onTouchMove);
+    document.removeEventListener("touchend", this.onTouchEnd);
   }
 
   /**
@@ -79,6 +88,51 @@ export default class PomodoroClock {
    * @param {MouseEvent} event
    */
   onMouseDown(event) {
+    this._handleDragStartEvent(event);
+  }
+
+  /**
+   * @param {MouseEvent} event
+   */
+  onMouseMove(event) {
+    this._handleDragMoveEvent(event);
+  }
+
+  /**
+   * @param {MouseEvent} event
+   */
+  onMouseUp(event) {
+    this._handleDragEndEvent(event);
+  }
+
+  /**
+   * @param {TouchEvent} event
+   */
+  onTouchStart (event) {
+    this._handleDragStartEvent(event);
+  }
+
+  /**
+   * @param {TouchEvent} event
+   */
+  onTouchMove (event) {
+    this._handleDragMoveEvent(event);
+  }
+
+  /**
+   * @param {TouchEvent} event
+   */
+  onTouchEnd (event) {
+    this._handleDragEndEvent(event);
+  }
+
+  _render() {
+  }
+
+  /**
+   * @param {MouseEvent | TouchEvent} event
+   */
+  _handleDragStartEvent (event) {
     if (this.props.active) {
       const pos = eventToPosition(event);
       const distance = measureDistance(this.center, pos);
@@ -93,11 +147,10 @@ export default class PomodoroClock {
   }
 
   /**
-   * @param {MouseEvent} event
+   * @param {MouseEvent | TouchEvent} event
    */
-  onMouseMove(event) {
+  _handleDragMoveEvent (event) {
     if (this._dragging) {
-      const { el } = this.props;
       const pos = eventToPosition(event);
       const dPos = getPosDiff(pos, this.center);
       const degree = measureDegree(dPos);
@@ -106,9 +159,9 @@ export default class PomodoroClock {
   }
 
   /**
-   * @param {MouseEvent} event
+   * @param {MouseEvent | TouchEvent} event
    */
-  onMouseUp(event) {
+  _handleDragEndEvent (event) {
     if (this._dragging) {
       event.preventDefault();
 
@@ -118,7 +171,16 @@ export default class PomodoroClock {
     }
   }
 
-  _render() {
+  /**
+   * @param {Pos} pos
+   */
+  _isPointOnTrack (pos) {
+    const distance = measureDistance(this.center, pos);
+
+    const min = this.minLength * 0.4;
+    const max = this.minLength * 0.5;
+    const onTrack = min < distance && distance < max;
+    return onTrack;
   }
 
   /**
