@@ -62,7 +62,7 @@ export default class PomodoroClockHand {
     const { degree } = this.props;
     if (Math.abs(this._lastDegree - degree) > 0.1) {
       this._lastDegree = degree;
-      this.props.el.style.setProperty('--degree', `${this.props.degree}deg`);
+      this.props.el.style.setProperty('--degree', `${degree}deg`);
     }
   }
 }
