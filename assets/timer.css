@@ -13,7 +13,6 @@
 }
 
 .pomodoro-clock {
-  box-shadow: 0 0 1em #0003 inset;
   height: 70vmin;
   margin-left: auto;
   margin-right: auto;
