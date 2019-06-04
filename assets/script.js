@@ -25,6 +25,12 @@ function setRemainingTime (remainingTime) {
 }
 
 function main () {
+  // sometimes I open `http://localhost/` accidentally
+  if (!window.location.pathname.startsWith('/pwa-pomodoro/')) {
+    window.location.replace('/pwa-pomodoro/');
+    return;
+  }
+
   /** @type {PomodoroState} */
   const initialPomodoroState = Object.freeze({
     breakTime: 5 * 60 * 1000,
