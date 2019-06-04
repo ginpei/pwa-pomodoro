@@ -40,5 +40,10 @@ module.exports = {
       "error",
       "always",
     ],
+    "spaced-comment": [
+      "error",
+      "always",
+      { "markers": ["/ <reference"] },
+    ],
   },
 };
