@@ -71,6 +71,7 @@ interface PreferencesDialogProps extends DialogProps {
   initialPomodoroState: PomodoroState;
   onChange: (state: PomodoroState) => void;
   onInstall: (installed: boolean) => void;
+  onPlayChime: () => void;
   pomodoroState: PomodoroState;
 }
 
@@ -81,6 +82,10 @@ interface PreferencesDialogState {
 interface PomodoroToggleButtonProps {
   active: boolean;
   el: SVGSVGElement;
+}
+
+interface ChimeProps {
+  preferences: PomodoroState;
 }
 
 interface Pos {

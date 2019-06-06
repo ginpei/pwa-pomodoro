@@ -1,4 +1,5 @@
 /* eslint-disable no-use-before-define */
+import Chime from './Chime.js';
 import { findElement, remainTimeToString } from './misc.js';
 import PomodoroCircle from './PomodoroCircle.js';
 import PomodoroClock from './PomodoroClock.js';
@@ -89,6 +90,7 @@ function main () {
     onClick: (active) => {
       if (active) {
         timer.stop();
+        chime.stop();
       } else {
         timer.start();
       }
@@ -115,10 +117,15 @@ function main () {
     el: findElement(document.body, 'toggle'),
   });
 
+  const chime = new Chime({
+    preferences: initialPomodoroState,
+  });
+
   /**
    * @param {PomodoroState} pomodoroState
    */
   const updatePomodoroState = (pomodoroState) => {
+    chime.updateProps({ preferences: pomodoroState });
     circle.updateProps({ pomodoroState });
     timer.updateProps({
       pomodoroState,
@@ -130,6 +137,12 @@ function main () {
     onStatusChange: (status, old) => {
       // WIP
       console.log('# status', `${old} -> ${status}`);
+
+      // WIP
+      if (status !== 'stop' && old !== 'stop') {
+        chime.play();
+      }
+
       clock.updateProps({
         active: status !== 'stop',
       });
@@ -166,6 +179,9 @@ function main () {
       if (installed) {
         beforeInstallPromptEvent = null;
       }
+    },
+    onPlayChime: () => {
+      chime.toggle();
     },
     pomodoroState: initialPomodoroState,
   });

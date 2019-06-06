@@ -114,8 +114,7 @@ export default class PreferencesDialog extends Dialog {
   }
 
   _playSound () {
-    // WIP
-    console.log('# play sound');
+    this.props.onPlayChime();
   }
 
   _resetDefault () {
