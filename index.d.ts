@@ -22,13 +22,6 @@ interface PomodoroPreferences {
   workTime: number;
 }
 
-// TODO remove
-interface PomodoroFormProps {
-  el: HTMLElement;
-  onChange: (values: PomodoroPreferences) => void;
-  values: PomodoroPreferences;
-}
-
 interface PomodoroClockProps {
   active: boolean;
   el: HTMLElement;
