@@ -3,7 +3,6 @@ import Chime from './Chime.js';
 import { findElement, remainTimeToString } from './misc.js';
 import PomodoroClock from './PomodoroClock.js';
 import PomodoroTimer from './PomodoroTimer.js';
-import PomodoroToggleButton from './PomodoroToggleButton.js';
 import PreferencesDialog from './PreferencesDialog.js';
 
 /** @type {BeforeInstallPromptEvent | null} */
@@ -97,11 +96,6 @@ function main () {
     },
   });
 
-  const toggleButton = new PomodoroToggleButton({
-    active: false,
-    el: findElement(document.body, 'toggle'),
-  });
-
   const chime = new Chime({
     preferences: initialPomodoroState,
   });
@@ -129,9 +123,6 @@ function main () {
       }
 
       clock.updateProps({
-        active: status !== 'stop',
-      });
-      toggleButton.updateProps({
         active: status !== 'stop',
       });
 

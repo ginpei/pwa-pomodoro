@@ -3,6 +3,7 @@ import {
 } from './misc.js';
 import PomodoroCircle from './PomodoroCircle.js';
 import PomodoroClockHand from './PomodoroClockHand.js';
+import PomodoroToggleButton from './PomodoroToggleButton.js';
 
 export default class PomodoroClock {
   /** @type {Pos} */
@@ -52,6 +53,11 @@ export default class PomodoroClock {
       degree: 0,
     });
 
+    this.toggleButton = new PomodoroToggleButton({
+      active: false,
+      el: findElement(el, 'toggle'),
+    });
+
     el.addEventListener('click', this.onClick);
     el.addEventListener('mousedown', this.onMouseDown);
     el.addEventListener('touchstart', this.onTouchStart);
@@ -95,6 +101,9 @@ export default class PomodoroClock {
     this.hand.updateProps({
       active: this.props.active,
       degree: this.props.progress * 360,
+    });
+    this.toggleButton.updateProps({
+      active: this.props.active,
     });
 
     this._render();

@@ -7,6 +7,7 @@ export default class PomodoroToggleButton {
   constructor (props) {
     /** @type {PomodoroToggleButtonProps} */
     this.props = props;
+    this._lastProps = this.props;
 
     this._initialized = false;
 
@@ -26,6 +27,7 @@ export default class PomodoroToggleButton {
    * @param {Partial<PomodoroToggleButtonProps>} props
    */
   updateProps (props) {
+    this._lastProps = { ...this.props };
     this.props = {
       ...this.props,
       ...props,
@@ -50,6 +52,10 @@ export default class PomodoroToggleButton {
    * @param {boolean} active
    */
   _animateSymbols (active) {
+    if (active === this._lastProps.active) {
+      return;
+    }
+
     if (active) {
       this._animating = true;
       const animation = this._elStart.animate([
