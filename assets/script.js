@@ -169,15 +169,17 @@ function main () {
 
 document.addEventListener('DOMContentLoaded', main);
 
-window.addEventListener('beforeinstallprompt',
-/**
- * (BeforeInstallPromptEvent is not compatible with Event.
- *  Use force-casting here until type definition is ready.)
- * @param {any} event
- */
+window.addEventListener(
+  'beforeinstallprompt',
+  /**
+   * (BeforeInstallPromptEvent is not compatible with Event.
+   *  Use force-casting here until type definition is ready.)
+   * @param {any} event
+   */
   (event) => {
     beforeInstallPromptEvent = event;
-  });
+  },
+);
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
