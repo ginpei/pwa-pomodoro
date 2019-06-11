@@ -144,14 +144,14 @@ function main () {
   /**
    * @param {PomodoroPreferences} preferences
    */
-  const updatePreferences = (preferences) => {
+  function updatePreferences (preferences) {
     chime.updateProps({ preferences });
     clock.updateProps({ preferences });
     timer.updateProps({
       preferences,
     });
     preferencesDialog.updateProps({ preferences });
-  };
+  }
 
   /**
    * @param {number} remainingTime
