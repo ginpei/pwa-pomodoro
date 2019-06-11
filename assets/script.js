@@ -32,7 +32,7 @@ function main () {
     return;
   }
 
-  /** @type {PomodoroState} */
+  /** @type {PomodoroPreferences} */
   const initialPomodoroState = Object.freeze({
     breakTime: 5 * 60 * 1000,
     pushNotificationEnabled: false,
@@ -122,7 +122,7 @@ function main () {
   });
 
   /**
-   * @param {PomodoroState} pomodoroState
+   * @param {PomodoroPreferences} pomodoroState
    */
   const updatePomodoroState = (pomodoroState) => {
     chime.updateProps({ preferences: pomodoroState });

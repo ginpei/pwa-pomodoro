@@ -14,8 +14,7 @@ interface DialogProps {
   onDone: () => void;
 }
 
-// TODO rename to preferences
-interface PomodoroState {
+interface PomodoroPreferences {
   breakTime: number;
   pushNotificationEnabled: boolean;
   sound: string;
@@ -23,10 +22,11 @@ interface PomodoroState {
   workTime: number;
 }
 
+// TODO remove
 interface PomodoroFormProps {
   el: HTMLElement;
-  onChange: (values: PomodoroState) => void;
-  values: PomodoroState;
+  onChange: (values: PomodoroPreferences) => void;
+  values: PomodoroPreferences;
 }
 
 interface PomodoroClockProps {
@@ -34,12 +34,12 @@ interface PomodoroClockProps {
   el: HTMLElement;
   onClick: (active: boolean) => void;
   onTurn: (degree: number) => void;
-  pomodoroState: PomodoroState;
+  pomodoroState: PomodoroPreferences;
 }
 
 interface PomodoroCircleProps {
   el: HTMLCanvasElement;
-  pomodoroState: PomodoroState;
+  pomodoroState: PomodoroPreferences;
 }
 
 interface PomodoroClockHandProps {
@@ -49,7 +49,7 @@ interface PomodoroClockHandProps {
 }
 
 interface PomodoroTimerProps {
-  pomodoroState: PomodoroState;
+  pomodoroState: PomodoroPreferences;
   onStatusChange: (
     status: PomodoroTimerStatus,
     oldStatus: PomodoroTimerStatus,
@@ -68,11 +68,11 @@ interface PomodoroTimerState {
 
 interface PreferencesDialogProps extends DialogProps {
   beforeInstallPromptEvent: BeforeInstallPromptEvent | null;
-  initialPomodoroState: PomodoroState;
-  onChange: (state: PomodoroState) => void;
+  initialPomodoroState: PomodoroPreferences;
+  onChange: (state: PomodoroPreferences) => void;
   onInstall: (installed: boolean) => void;
   onPlayChime: () => void;
-  pomodoroState: PomodoroState;
+  pomodoroState: PomodoroPreferences;
 }
 
 interface PreferencesDialogState {
@@ -85,7 +85,7 @@ interface PomodoroToggleButtonProps {
 }
 
 interface ChimeProps {
-  preferences: PomodoroState;
+  preferences: PomodoroPreferences;
 }
 
 interface Pos {
