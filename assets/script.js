@@ -8,20 +8,6 @@ import PreferencesDialog from './PreferencesDialog.js';
 /** @type {BeforeInstallPromptEvent | null} */
 let beforeInstallPromptEvent = null;
 
-/** @type {HTMLElement} */
-const elRemainingTime = findElement(document.body, 'remainingTime');
-
-/**
- * @param {number} remainingTime
- */
-function setRemainingTime (remainingTime) {
-  const dot = (remainingTime % 1000) > 500 ? '.' : '\u00a0';
-  const text = `\u00a0${remainTimeToString(remainingTime)}${dot}`;
-  if (elRemainingTime.textContent !== text) {
-    elRemainingTime.textContent = text;
-  }
-}
-
 function main () {
   // sometimes I open `http://localhost/` accidentally
   if (!window.location.pathname.startsWith('/pwa-pomodoro/')) {
@@ -37,6 +23,9 @@ function main () {
     volume: 1,
     workTime: 25 * 60 * 1000,
   });
+
+  /** @type {HTMLElement} */
+  const elRemainingTime = findElement(document.body, 'remainingTime');
 
   /** @type {Map<string, [() => void, () => void]>} */
   const sceneActions = new Map();
@@ -163,6 +152,17 @@ function main () {
     window.history.pushState({}, '', '?scene=preferences');
     onHistoryChange();
   });
+
+  /**
+   * @param {number} remainingTime
+   */
+  function setRemainingTime (remainingTime) {
+    const dot = (remainingTime % 1000) > 500 ? '.' : '\u00a0';
+    const text = `\u00a0${remainTimeToString(remainingTime)}${dot}`;
+    if (elRemainingTime.textContent !== text) {
+      elRemainingTime.textContent = text;
+    }
+  }
 
   onHistoryChange();
 }
