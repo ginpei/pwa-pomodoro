@@ -28,8 +28,8 @@ export default class PomodoroCircle {
   }
 
   _render () {
-    const { el, pomodoroState: ps } = this.props;
-    const rate = ps.workTime / (ps.breakTime + ps.workTime);
+    const { el, preferences: pref } = this.props;
+    const rate = pref.workTime / (pref.breakTime + pref.workTime);
     const point = rate * 360;
 
     this._renderCircle(el, 0, point, 'orange', 'tomato');

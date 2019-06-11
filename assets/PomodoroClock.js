@@ -44,7 +44,7 @@ export default class PomodoroClock {
 
     this.circle = new PomodoroCircle({
       el: findElement(el, 'circle'),
-      pomodoroState: this.props.pomodoroState,
+      preferences: this.props.preferences,
     });
 
     this.hand = new PomodoroClockHand({
@@ -96,7 +96,7 @@ export default class PomodoroClock {
     };
 
     this.circle.updateProps({
-      pomodoroState: this.props.pomodoroState,
+      preferences: this.props.preferences,
     });
     this.hand.updateProps({
       active: this.props.active,

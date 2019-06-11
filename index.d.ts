@@ -27,13 +27,13 @@ interface PomodoroClockProps {
   el: HTMLElement;
   onClick: (active: boolean) => void;
   onTurn: (degree: number) => void;
-  pomodoroState: PomodoroPreferences;
+  preferences: PomodoroPreferences;
   progress: number; // 0.0 - 1.0
 }
 
 interface PomodoroCircleProps {
   el: HTMLCanvasElement;
-  pomodoroState: PomodoroPreferences;
+  preferences: PomodoroPreferences;
 }
 
 interface PomodoroClockHandProps {
@@ -43,7 +43,7 @@ interface PomodoroClockHandProps {
 }
 
 interface PomodoroTimerProps {
-  pomodoroState: PomodoroPreferences;
+  preferences: PomodoroPreferences;
   onStatusChange: (
     status: PomodoroTimerStatus,
     oldStatus: PomodoroTimerStatus,
@@ -62,11 +62,11 @@ interface PomodoroTimerState {
 
 interface PreferencesDialogProps extends DialogProps {
   beforeInstallPromptEvent: BeforeInstallPromptEvent | null;
-  initialPomodoroState: PomodoroPreferences;
+  initialPreferences: PomodoroPreferences;
   onChange: (state: PomodoroPreferences) => void;
   onInstall: (installed: boolean) => void;
   onPlayChime: () => void;
-  pomodoroState: PomodoroPreferences;
+  preferences: PomodoroPreferences;
 }
 
 interface PreferencesDialogState {

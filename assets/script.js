@@ -30,7 +30,7 @@ function main () {
   }
 
   /** @type {PomodoroPreferences} */
-  const initialPomodoroState = Object.freeze({
+  const initialPreferences = Object.freeze({
     breakTime: 5 * 60 * 1000,
     pushNotificationEnabled: false,
     sound: 'chime',
@@ -80,7 +80,7 @@ function main () {
   const clock = new PomodoroClock({
     active: false,
     el: findElement(document.body, 'clock'),
-    pomodoroState: initialPomodoroState,
+    preferences: initialPreferences,
     progress: 0,
     onClick: (active) => {
       if (active) {
@@ -97,19 +97,19 @@ function main () {
   });
 
   const chime = new Chime({
-    preferences: initialPomodoroState,
+    preferences: initialPreferences,
   });
 
   /**
-   * @param {PomodoroPreferences} pomodoroState
+   * @param {PomodoroPreferences} preferences
    */
-  const updatePomodoroState = (pomodoroState) => {
-    chime.updateProps({ preferences: pomodoroState });
-    clock.updateProps({ pomodoroState });
+  const updatePreferences = (preferences) => {
+    chime.updateProps({ preferences });
+    clock.updateProps({ preferences });
     timer.updateProps({
-      pomodoroState,
+      preferences,
     });
-    preferencesDialog.updateProps({ pomodoroState });
+    preferencesDialog.updateProps({ preferences });
   };
 
   const timer = new PomodoroTimer({
@@ -133,15 +133,15 @@ function main () {
 
       setRemainingTime(remaining);
     },
-    pomodoroState: initialPomodoroState,
+    preferences: initialPreferences,
   });
 
   const preferencesDialog = new PreferencesDialog({
     beforeInstallPromptEvent,
     el: findElement(document.body, 'preferencesDialog'),
-    initialPomodoroState,
+    initialPreferences,
     onChange: (state) => {
-      updatePomodoroState(state);
+      updatePreferences(state);
     },
     onDone: () => {
       window.history.back();
@@ -154,7 +154,7 @@ function main () {
     onPlayChime: () => {
       chime.toggle();
     },
-    pomodoroState: initialPomodoroState,
+    preferences: initialPreferences,
   });
 
   /** @type {HTMLButtonElement} */

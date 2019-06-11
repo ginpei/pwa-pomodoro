@@ -86,16 +86,16 @@ export default class PreferencesDialog extends Dialog {
   }
 
   _render () {
-    const state = this.props.pomodoroState;
+    const pref = this.props.preferences;
 
     // timer
-    this._elWorkTime.value = String(this._msToMin(state.workTime));
-    this._elBreakTime.value = String(this._msToMin(state.breakTime));
+    this._elWorkTime.value = String(this._msToMin(pref.workTime));
+    this._elBreakTime.value = String(this._msToMin(pref.breakTime));
 
     // notification
-    this._elPushNotificationEnabled.checked = state.pushNotificationEnabled;
-    this._elSound.value = state.sound;
-    const volumeText = String(Math.round(state.volume * 100));
+    this._elPushNotificationEnabled.checked = pref.pushNotificationEnabled;
+    this._elSound.value = pref.sound;
+    const volumeText = String(Math.round(pref.volume * 100));
     this._elVolumeValue.textContent = volumeText;
     this._elVolume.value = volumeText;
 
@@ -125,14 +125,14 @@ export default class PreferencesDialog extends Dialog {
     }
 
     this.updateProps({
-      pomodoroState: this.props.initialPomodoroState,
+      preferences: this.props.initialPreferences,
     });
     this._dispatchChange();
   }
 
   _dispatchChange () {
     this.props.onChange({
-      ...this.props.pomodoroState,
+      ...this.props.preferences,
       breakTime: this._minToMs(Number(this._elBreakTime.value)),
       pushNotificationEnabled: this._elPushNotificationEnabled.checked,
       sound: this._elSound.value,

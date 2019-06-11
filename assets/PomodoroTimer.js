@@ -5,7 +5,7 @@ export default class PomodoroTimer {
   }
 
   get totalTime () {
-    const { breakTime, workTime } = this.props.pomodoroState;
+    const { breakTime, workTime } = this.props.preferences;
     const totalTime = workTime + breakTime;
     return totalTime;
   }
@@ -18,16 +18,16 @@ export default class PomodoroTimer {
 
   get threshold () {
     const { totalTime } = this;
-    const { workTime } = this.props.pomodoroState;
+    const { workTime } = this.props.preferences;
     const threshold = workTime / totalTime;
     return threshold;
   }
 
   get remainingTime () {
-    const timeLength = this.props.pomodoroState.workTime
+    const timeLength = this.props.preferences.workTime
       + (this.progress <= this.threshold
         ? 0
-        : this.props.pomodoroState.breakTime);
+        : this.props.preferences.breakTime);
     const remainingTime = timeLength - this.elapse;
     return remainingTime;
   }
