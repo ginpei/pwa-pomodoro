@@ -48,3 +48,17 @@ sw.addEventListener('fetch', (event) => {
     return new Response('Not found');
   }));
 });
+
+let tmPomodoroNotification = 0;
+
+sw.onmessage = async (event) => {
+  const { type } = event.data;
+  if (type === 'notification') {
+    clearTimeout(tmPomodoroNotification);
+
+    const { delay, title } = event.data;
+    tmPomodoroNotification = setTimeout(() => {
+      sw.registration.showNotification(title);
+    }, delay);
+  }
+};

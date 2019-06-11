@@ -7,6 +7,7 @@ export default class PreferencesDialog extends Dialog {
    */
   constructor (props) {
     super(props);
+    this.onPushNotificationClick = this.onPushNotificationClick.bind(this);
 
     /** @type {PreferencesDialogProps} */
     this.props = props;
@@ -28,7 +29,7 @@ export default class PreferencesDialog extends Dialog {
 
     /** @type {HTMLInputElement} */
     this._elPushNotificationEnabled = findElement(el, 'pushNotificationEnabled');
-    this._elPushNotificationEnabled.addEventListener('input', () => this._dispatchChange());
+    this._elPushNotificationEnabled.addEventListener('input', this.onPushNotificationClick);
 
     /** @type {HTMLInputElement} */
     this._elSound = findElement(el, 'sound');
@@ -68,6 +69,42 @@ export default class PreferencesDialog extends Dialog {
    */
   updateProps (props) {
     super.updateProps(props);
+  }
+
+  onPushNotificationClick () {
+    const { permission } = Notification;
+    if (permission === 'denied') {
+      this._elPushNotificationEnabled.checked = false;
+
+      // eslint-disable-next-line no-alert
+      window.alert('You have denied push Notification. You have to update your decision.');
+    } else if (permission === 'default') {
+      this._elPushNotificationEnabled.checked = false;
+
+      Notification.requestPermission((newPermission) => {
+        this._elPushNotificationEnabled.disabled = false;
+
+        if (newPermission === 'granted') {
+          this._elPushNotificationEnabled.checked = true;
+          this._dispatchChange();
+        } else {
+          this._elPushNotificationEnabled.checked = false;
+        }
+      });
+    } else {
+      // WIP
+      const sw = navigator.serviceWorker.controller;
+      if (!sw) {
+        throw new Error('Service worker must have taken control');
+      }
+      sw.postMessage({
+        delay: 10,
+        title: 'Hello World!',
+        type: 'notification',
+      });
+
+      this._dispatchChange();
+    }
   }
 
   async onInstallClick () {
