@@ -24,6 +24,9 @@ function main () {
     workTime: 25 * 60 * 1000,
   });
 
+  /** @type {HTMLButtonElement} */
+  const elOpenPreference = findElement(document.body, 'openPreferences');
+
   /** @type {HTMLElement} */
   const elRemainingTime = findElement(document.body, 'remainingTime');
 
@@ -37,34 +40,6 @@ function main () {
   }, () => {
     preferencesDialog.hide();
   }]);
-
-  const onHistoryChange = () => {
-    const search = window.location.search.slice(1);
-    const sPairs = search.split('&');
-    /** @type {Map<string, string>} */
-    const queryMap = sPairs.reduce((map, sPair) => {
-      const index = sPair.indexOf('=');
-      if (index >= 0) {
-        const key = sPair.slice(0, index);
-        const value = sPair.slice(index + 1);
-        map.set(key, value);
-      } else {
-        map.set(sPair, '');
-      }
-      return map;
-    }, new Map());
-
-    const scene = queryMap.get('scene') || '';
-    sceneActions.forEach(([on, off], key) => {
-      if (key === scene) {
-        on();
-      } else {
-        off();
-      }
-    });
-  };
-
-  window.addEventListener('popstate', onHistoryChange);
 
   const clock = new PomodoroClock({
     active: false,
@@ -134,12 +109,31 @@ function main () {
     preferences: initialPreferences,
   });
 
-  /** @type {HTMLButtonElement} */
-  const elOpenPreference = findElement(document.body, 'openPreferences');
-  elOpenPreference.addEventListener('click', () => {
-    window.history.pushState({}, '', '?scene=preferences');
-    onHistoryChange();
-  });
+  function onHistoryChange () {
+    const search = window.location.search.slice(1);
+    const sPairs = search.split('&');
+    /** @type {Map<string, string>} */
+    const queryMap = sPairs.reduce((map, sPair) => {
+      const index = sPair.indexOf('=');
+      if (index >= 0) {
+        const key = sPair.slice(0, index);
+        const value = sPair.slice(index + 1);
+        map.set(key, value);
+      } else {
+        map.set(sPair, '');
+      }
+      return map;
+    }, new Map());
+
+    const scene = queryMap.get('scene') || '';
+    sceneActions.forEach(([on, off], key) => {
+      if (key === scene) {
+        on();
+      } else {
+        off();
+      }
+    });
+  }
 
   /**
    * @param {PomodoroPreferences} preferences
@@ -163,6 +157,13 @@ function main () {
       elRemainingTime.textContent = text;
     }
   }
+
+  window.addEventListener('popstate', onHistoryChange);
+
+  elOpenPreference.addEventListener('click', () => {
+    window.history.pushState({}, '', '?scene=preferences');
+    onHistoryChange();
+  });
 
   onHistoryChange();
 }
