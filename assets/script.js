@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
 import Chime from './Chime.js';
 import { findElement, remainTimeToString } from './misc.js';
-import PomodoroCircle from './PomodoroCircle.js';
 import PomodoroClock from './PomodoroClock.js';
 import PomodoroClockHand from './PomodoroClockHand.js';
 import PomodoroTimer from './PomodoroTimer.js';
@@ -40,9 +39,6 @@ function main () {
     volume: 1,
     workTime: 25 * 60 * 1000,
   });
-
-  /** @type {HTMLCanvasElement} */
-  const elCanvas = findElement(document.body, 'circle');
 
   /** @type {Map<string, [() => void, () => void]>} */
   const sceneActions = new Map();
@@ -101,11 +97,6 @@ function main () {
     },
   });
 
-  const circle = new PomodoroCircle({
-    el: elCanvas,
-    pomodoroState: initialPomodoroState,
-  });
-
   const hand = new PomodoroClockHand({
     active: false,
     el: findElement(document.body, 'clockHand'),
@@ -126,7 +117,7 @@ function main () {
    */
   const updatePomodoroState = (pomodoroState) => {
     chime.updateProps({ preferences: pomodoroState });
-    circle.updateProps({ pomodoroState });
+    clock.updateProps({ pomodoroState });
     timer.updateProps({
       pomodoroState,
     });

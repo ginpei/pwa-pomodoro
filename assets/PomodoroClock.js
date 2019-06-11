@@ -1,6 +1,7 @@
 import {
   eventToPosition, findElement, getPosDiff, measureDegree, measureDistance,
 } from './misc.js';
+import PomodoroCircle from './PomodoroCircle.js';
 
 export default class PomodoroClock {
   /** @type {Pos} */
@@ -39,6 +40,11 @@ export default class PomodoroClock {
 
     const { el } = this.props;
 
+    this.circle = new PomodoroCircle({
+      el: findElement(el, 'circle'),
+      pomodoroState: this.props.pomodoroState,
+    });
+
     el.addEventListener('click', this.onClick);
     el.addEventListener('mousedown', this.onMouseDown);
     el.addEventListener('touchstart', this.onTouchStart);
@@ -75,6 +81,11 @@ export default class PomodoroClock {
       ...this.props,
       ...props,
     };
+
+    this.circle.updateProps({
+      pomodoroState: this.props.pomodoroState,
+    });
+
     this._render();
   }
 
