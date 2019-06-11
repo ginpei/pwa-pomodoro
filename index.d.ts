@@ -28,6 +28,7 @@ interface PomodoroClockProps {
   onClick: (active: boolean) => void;
   onTurn: (degree: number) => void;
   pomodoroState: PomodoroPreferences;
+  progress: number; // 0.0 - 1.0
 }
 
 interface PomodoroCircleProps {

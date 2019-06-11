@@ -2,7 +2,6 @@
 import Chime from './Chime.js';
 import { findElement, remainTimeToString } from './misc.js';
 import PomodoroClock from './PomodoroClock.js';
-import PomodoroClockHand from './PomodoroClockHand.js';
 import PomodoroTimer from './PomodoroTimer.js';
 import PomodoroToggleButton from './PomodoroToggleButton.js';
 import PreferencesDialog from './PreferencesDialog.js';
@@ -83,6 +82,7 @@ function main () {
     active: false,
     el: findElement(document.body, 'clock'),
     pomodoroState: initialPomodoroState,
+    progress: 0,
     onClick: (active) => {
       if (active) {
         timer.stop();
@@ -95,12 +95,6 @@ function main () {
       const progress = degree / 360;
       timer.setProgress(progress);
     },
-  });
-
-  const hand = new PomodoroClockHand({
-    active: false,
-    el: findElement(document.body, 'clockHand'),
-    degree: 0,
   });
 
   const toggleButton = new PomodoroToggleButton({
@@ -137,9 +131,6 @@ function main () {
       clock.updateProps({
         active: status !== 'stop',
       });
-      hand.updateProps({
-        active: status !== 'stop',
-      });
       toggleButton.updateProps({
         active: status !== 'stop',
       });
@@ -147,9 +138,7 @@ function main () {
       setRemainingTime(0);
     },
     onUpdate: (progress, remaining) => {
-      hand.updateProps({
-        degree: progress * 360,
-      });
+      clock.updateProps({ progress });
 
       setRemainingTime(remaining);
     },
