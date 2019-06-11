@@ -89,18 +89,6 @@ function main () {
     preferences: initialPreferences,
   });
 
-  /**
-   * @param {PomodoroPreferences} preferences
-   */
-  const updatePreferences = (preferences) => {
-    chime.updateProps({ preferences });
-    clock.updateProps({ preferences });
-    timer.updateProps({
-      preferences,
-    });
-    preferencesDialog.updateProps({ preferences });
-  };
-
   const timer = new PomodoroTimer({
     onStatusChange: (status, old) => {
       // WIP
@@ -152,6 +140,18 @@ function main () {
     window.history.pushState({}, '', '?scene=preferences');
     onHistoryChange();
   });
+
+  /**
+   * @param {PomodoroPreferences} preferences
+   */
+  const updatePreferences = (preferences) => {
+    chime.updateProps({ preferences });
+    clock.updateProps({ preferences });
+    timer.updateProps({
+      preferences,
+    });
+    preferencesDialog.updateProps({ preferences });
+  };
 
   /**
    * @param {number} remainingTime
