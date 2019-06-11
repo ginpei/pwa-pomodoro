@@ -15,7 +15,7 @@ function main () {
     return;
   }
 
-  /** @type {PomodoroPreferences} */
+  /** @type {Readonly<PomodoroPreferences>} */
   const initialPreferences = Object.freeze({
     breakTime: 5 * 60 * 1000,
     pushNotificationEnabled: false,
