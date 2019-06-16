@@ -3,6 +3,7 @@
 /// <reference path="./node_modules/typescript/lib/lib.webworker.d.ts" />
 /// <reference path="./types/common.d.ts" />
 /// <reference path="./types/controller.d.ts" />
+/// <reference path="./assets/sw/PomodoroTimer.js" />
 
 /** @type {ServiceWorkerGlobalScope} */
 // @ts-ignore
