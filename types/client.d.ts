@@ -14,14 +14,6 @@ interface DialogProps {
   onDone: () => void;
 }
 
-interface PomodoroPreferences {
-  breakTime: number;
-  pushNotificationEnabled: boolean;
-  sound: string;
-  volume: number; // 0.0 - 1.0
-  workTime: number;
-}
-
 interface PomodoroClockProps {
   active: boolean;
   el: HTMLElement;
@@ -40,24 +32,6 @@ interface PomodoroClockHandProps {
   active: boolean;
   el: HTMLCanvasElement;
   degree: number;
-}
-
-interface PomodoroTimerProps {
-  preferences: PomodoroPreferences;
-  onStatusChange: (
-    status: PomodoroTimerStatus,
-    oldStatus: PomodoroTimerStatus,
-  ) => void;
-  onUpdate: (progress: number, remainingTime: number) => void;
-}
-
-type PomodoroTimerStatus =
-  | 'stop'
-  | 'working'
-  | 'breaking';
-
-interface PomodoroTimerState {
-  status: PomodoroTimerStatus;
 }
 
 interface PreferencesDialogProps extends DialogProps {
@@ -86,30 +60,3 @@ interface Pos {
   x: number;
   y: number;
 }
-
-// main -> SW
-type ClientMessage =
-  {
-    preferences: PomodoroPreferences;
-    type: 'setPreferences';
-  } | {
-    type: 'startTimer';
-  } | {
-    type: 'stopTimer';
-  } | {
-    progress: number; // 0.0 - 1.0
-    type: 'setProgress';
-  }
-
-// SW -> main
-// TODO rename
-type ControllerMessage =
-  {
-    progress: number; // 0.0 - 1.0
-    remaining: number;
-    type: 'tick';
-  } | {
-    oldStatus: PomodoroTimerStatus;
-    status: PomodoroTimerStatus;
-    type: 'statusChange';
-  }

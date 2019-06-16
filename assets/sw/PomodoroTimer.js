@@ -1,6 +1,7 @@
 /// <reference path="../../node_modules/typescript/lib/lib.es2015.d.ts" />
 /// <reference path="../../node_modules/typescript/lib/lib.webworker.d.ts" />
-/// <reference path="../../index.d.ts" />
+/// <reference path="../../types/common.d.ts" />
+/// <reference path="../../types/controller.d.ts" />
 
 // eslint-disable-next-line no-undef
 globalThis.PomodoroTimer = class PomodoroTimer {
