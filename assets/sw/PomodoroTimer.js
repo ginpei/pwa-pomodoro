@@ -115,13 +115,14 @@ globalThis.PomodoroTimer = class PomodoroTimer {
   _setStatus (status) {
     const oldStatus = this.state.status;
     this.state.status = status;
-    this._dispatchStatusChange(oldStatus);
+    this._dispatchStatusChange(status, oldStatus);
   }
 
   /**
+   * @param {PomodoroTimerStatus} status
    * @param {PomodoroTimerStatus} oldStatus
    */
-  _dispatchStatusChange (oldStatus) {
-    this.props.onStatusChange(this.state.status, oldStatus);
+  _dispatchStatusChange (status, oldStatus) {
+    this.props.onStatusChange(status, oldStatus);
   }
 };
