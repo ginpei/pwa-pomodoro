@@ -86,3 +86,30 @@ interface Pos {
   x: number;
   y: number;
 }
+
+// main -> SW
+type ClientMessage =
+  {
+    preferences: PomodoroPreferences;
+    type: 'setPreferences';
+  } | {
+    type: 'startTimer';
+  } | {
+    type: 'stopTimer';
+  } | {
+    progress: number; // 0.0 - 1.0
+    type: 'setProgress';
+  }
+
+// SW -> main
+// TODO rename
+type ControllerMessage =
+  {
+    progress: number; // 0.0 - 1.0
+    remaining: number;
+    type: 'tick';
+  } | {
+    oldStatus: PomodoroTimerStatus;
+    status: PomodoroTimerStatus;
+    type: 'statusChange';
+  }

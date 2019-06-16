@@ -4,5 +4,6 @@
   ],
   "include": [
     "service-worker.js",
+    "assets/sw/",
   ]
 }

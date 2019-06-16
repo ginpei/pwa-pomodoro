@@ -2,11 +2,66 @@
 import Chime from './Chime.js';
 import { findElement, remainTimeToString } from './misc.js';
 import PomodoroClock from './PomodoroClock.js';
-import PomodoroTimer from './PomodoroTimer.js';
 import PreferencesDialog from './PreferencesDialog.js';
 
 /** @type {BeforeInstallPromptEvent | null} */
 let beforeInstallPromptEvent = null;
+
+/**
+ * @returns {Promise<ServiceWorker>}
+ */
+function getControllerSW () {
+  // TODO
+  return new Promise((resolve) => {
+    const sw = navigator.serviceWorker.controller;
+    if (!sw) {
+      // TODO
+      throw new Error('Service worker must have taken control');
+    }
+
+    resolve(sw);
+  });
+}
+
+/**
+ * @param {ClientMessage} message
+ */
+async function postMessageToController (message) {
+  const sw = await getControllerSW();
+  sw.postMessage(message);
+}
+
+/**
+ * @param {PomodoroPreferences} preferences
+ */
+function setTimerPreferences (preferences) {
+  return postMessageToController({
+    preferences,
+    type: 'setPreferences',
+  });
+}
+
+function startTimer () {
+  return postMessageToController({
+    type: 'startTimer',
+  });
+}
+
+function stopTimer () {
+  return postMessageToController({
+    type: 'stopTimer',
+  });
+}
+
+/**
+ * @param {any} progress
+ */
+function setTimerProgress (progress) {
+  return postMessageToController({
+    progress,
+    type: 'setProgress',
+  });
+}
 
 function main () {
   // sometimes I open `http://localhost/` accidentally
@@ -48,43 +103,19 @@ function main () {
     progress: 0,
     onClick: (active) => {
       if (active) {
-        timer.stop();
         chime.stop();
+        stopTimer();
       } else {
-        timer.start();
+        startTimer();
       }
     },
     onTurn: (degree) => {
       const progress = degree / 360;
-      timer.setProgress(progress);
+      setTimerProgress(progress);
     },
   });
 
   const chime = new Chime({
-    preferences: initialPreferences,
-  });
-
-  const timer = new PomodoroTimer({
-    onStatusChange: (status, old) => {
-      // WIP
-      console.log('# status', `${old} -> ${status}`);
-
-      // WIP
-      if (status !== 'stop' && old !== 'stop') {
-        chime.play();
-      }
-
-      clock.updateProps({
-        active: status !== 'stop',
-      });
-
-      setRemainingTime(0);
-    },
-    onUpdate: (progress, remaining) => {
-      clock.updateProps({ progress });
-
-      setRemainingTime(remaining);
-    },
     preferences: initialPreferences,
   });
 
@@ -141,10 +172,9 @@ function main () {
   function updatePreferences (preferences) {
     chime.updateProps({ preferences });
     clock.updateProps({ preferences });
-    timer.updateProps({
-      preferences,
-    });
     preferencesDialog.updateProps({ preferences });
+
+    setTimerPreferences(preferences);
   }
 
   /**
@@ -164,6 +194,39 @@ function main () {
     window.history.pushState({}, '', '?scene=preferences');
     onHistoryChange();
   });
+
+  navigator.serviceWorker.onmessage = (event) => {
+    /** @type {ControllerMessage} */
+    const message = event.data;
+    switch (message.type) {
+      case 'statusChange': {
+        const { oldStatus, status } = message;
+        // WIP
+        console.log('# status', `${oldStatus} -> ${status}`);
+
+        // WIP
+        if (status !== 'stop' && oldStatus !== 'stop') {
+          chime.play();
+        }
+
+        clock.updateProps({
+          active: status !== 'stop',
+        });
+
+        setRemainingTime(0);
+        break;
+      }
+
+      case 'tick': {
+        clock.updateProps({ progress: message.progress });
+        setRemainingTime(message.remaining);
+        break;
+      }
+
+      default:
+        break;
+    }
+  };
 
   onHistoryChange();
 }

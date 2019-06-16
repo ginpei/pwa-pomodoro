@@ -64,5 +64,6 @@
   },
   "exclude": [
     "service-worker.js",
+    "assets/sw/",
   ],
 }

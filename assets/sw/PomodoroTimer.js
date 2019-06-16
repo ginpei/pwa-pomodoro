@@ -1,4 +1,9 @@
-export default class PomodoroTimer {
+/// <reference path="../../node_modules/typescript/lib/lib.es2015.d.ts" />
+/// <reference path="../../node_modules/typescript/lib/lib.webworker.d.ts" />
+/// <reference path="../../index.d.ts" />
+
+// eslint-disable-next-line no-undef
+globalThis.PomodoroTimer = class PomodoroTimer {
   get elapse () {
     const elapse = (Date.now() - this._startedAt) % this.totalTime;
     return elapse;
@@ -83,13 +88,13 @@ export default class PomodoroTimer {
         throw new Error('Unknown status has been set');
       }
 
-      this._tm = requestAnimationFrame(f);
+      this._tm = setTimeout(f, 16);
     };
     f();
   }
 
   stop () {
-    window.cancelAnimationFrame(this._tm);
+    clearTimeout(this._tm);
     this._startedAt = 0;
     this._tm = 0;
     this._setStatus('stop');
@@ -118,4 +123,4 @@ export default class PomodoroTimer {
   _dispatchStatusChange (oldStatus) {
     this.props.onStatusChange(this.state.status, oldStatus);
   }
-}
+};

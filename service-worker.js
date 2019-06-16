@@ -1,10 +1,23 @@
+/* eslint-disable no-use-before-define */
 /// <reference path="./node_modules/typescript/lib/lib.es2015.d.ts" />
 /// <reference path="./node_modules/typescript/lib/lib.webworker.d.ts" />
+/// <reference path="./index.d.ts" />
 
 /** @type {ServiceWorkerGlobalScope} */
 // @ts-ignore
 // eslint-disable-next-line no-restricted-globals
 const sw = self;
+
+sw.importScripts('./assets/sw/PomodoroTimer.js');
+
+/** @type {Readonly<PomodoroPreferences>} */
+const initialPreferences = Object.freeze({
+  breakTime: 5 * 60 * 1000,
+  pushNotificationEnabled: false,
+  sound: 'chime',
+  volume: 1,
+  workTime: 25 * 60 * 1000,
+});
 
 const base = '/pwa-pomodoro/';
 
@@ -49,16 +62,63 @@ sw.addEventListener('fetch', (event) => {
   }));
 });
 
-let tmPomodoroNotification = 0;
-
 sw.onmessage = async (event) => {
-  const { type } = event.data;
-  if (type === 'notification') {
-    clearTimeout(tmPomodoroNotification);
+  /** @type {{ data: ClientMessage }} */
+  const { data } = event;
+  switch (data.type) {
+    case 'setPreferences': {
+      timer.updateProps({ preferences: data.preferences });
+      break;
+    }
 
-    const { delay, title } = event.data;
-    tmPomodoroNotification = setTimeout(() => {
-      sw.registration.showNotification(title);
-    }, delay);
+    case 'startTimer': {
+      timer.start();
+      break;
+    }
+
+    case 'stopTimer': {
+      timer.stop();
+      break;
+    }
+
+    case 'setProgress': {
+      timer.setProgress(data.progress);
+      break;
+    }
+
+    default:
+      // nothing to do
   }
 };
+
+/**
+ * @param {ControllerMessage} message
+ */
+async function postMessageToClient (message) {
+  const clients = await sw.clients.matchAll();
+  if (clients.length < 1) {
+    throw new Error('No clients found');
+  }
+
+  clients.forEach((client) => {
+    client.postMessage(message);
+  });
+}
+
+const timer = new globalThis.PomodoroTimer({
+  onStatusChange: (status, oldStatus) => {
+    postMessageToClient({
+      oldStatus,
+      status,
+      type: 'statusChange',
+    });
+  },
+  onUpdate: (progress, remaining) => {
+    postMessageToClient({
+      progress,
+      remaining,
+      type: 'tick',
+    });
+  },
+  preferences: initialPreferences,
+});
