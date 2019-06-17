@@ -175,6 +175,7 @@ export default class PomodoroClock {
       if (min < distance && distance < max) {
         event.preventDefault();
         this._dragging = true;
+        this.props.onTurnStart();
       }
     }
   }
@@ -200,6 +201,7 @@ export default class PomodoroClock {
 
       setTimeout(() => {
         this._dragging = false;
+        this.props.onTurnEnd();
       }, 1);
     }
   }

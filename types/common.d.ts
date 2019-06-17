@@ -12,6 +12,9 @@ type ClientMessage =
   } | {
     progress: number; // 0.0 - 1.0
     type: 'setProgress';
+  } | {
+    adjusting: boolean;
+    type: 'setAdjusting';
   }
 
 /**

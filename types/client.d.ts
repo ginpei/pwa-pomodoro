@@ -19,6 +19,8 @@ interface PomodoroClockProps {
   el: HTMLElement;
   onClick: (active: boolean) => void;
   onTurn: (degree: number) => void;
+  onTurnEnd: () => void;
+  onTurnStart: () => void;
   preferences: PomodoroPreferences;
   progress: number; // 0.0 - 1.0
 }

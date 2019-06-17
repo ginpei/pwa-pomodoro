@@ -88,6 +88,12 @@ sw.onmessage = async (event) => {
       break;
     }
 
+    case 'setAdjusting': {
+      const { adjusting } = data;
+      console.log('# adjusting', adjusting);
+      break;
+    }
+
     default:
       // nothing to do
   }

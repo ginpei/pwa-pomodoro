@@ -63,6 +63,16 @@ function setTimerProgress (progress) {
   });
 }
 
+/**
+ * @param {boolean} adjusting
+ */
+function setTimerAdjusting (adjusting) {
+  return postMessageToController({
+    adjusting,
+    type: 'setAdjusting',
+  });
+}
+
 function main () {
   // sometimes I open `http://localhost/` accidentally
   if (!window.location.pathname.startsWith('/pwa-pomodoro/')) {
@@ -109,9 +119,15 @@ function main () {
         startTimer();
       }
     },
+    onTurnStart: () => {
+      setTimerAdjusting(true);
+    },
     onTurn: (degree) => {
       const progress = degree / 360;
       setTimerProgress(progress);
+    },
+    onTurnEnd: () => {
+      setTimerAdjusting(false);
     },
   });
 
